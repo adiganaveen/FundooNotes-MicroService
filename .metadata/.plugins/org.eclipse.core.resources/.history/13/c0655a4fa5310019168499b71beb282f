@@ -1,0 +1,10 @@
+package com.bridgelabz.fundoonotes.dao;
+
+import com.bridgelabz.fundoonotes.model.User;
+
+public interface UserDao {
+int registerUser(User user);
+void login();
+void updateUser();
+void deleteUser();
+}

@@ -1,0 +1,31 @@
+package com.bridgelabz.fundoonotes.service;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.model.Note;
+import com.bridgelabz.fundoonotes.repository.NoteRepository;
+
+@Service
+public class NoteServiceImpl implements NoteService{
+
+	@Autowired
+	private NoteRepository noteRepository;
+	
+	@Override
+	public Note createNote(String token,Note note, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		User user = userDao.getUserById(userId);
+		if (user != null) {
+			note.setUserId(user);
+			int i = noteDao.createNote(note);
+			if (i > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

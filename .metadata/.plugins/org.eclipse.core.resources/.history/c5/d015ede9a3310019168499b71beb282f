@@ -1,0 +1,8 @@
+package com.bridgelabz.fundoonotes.dao;
+
+public interface UserDao {
+int registerUser(User user);
+void login();
+void updateUser();
+void deleteUser();
+}

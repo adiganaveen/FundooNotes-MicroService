@@ -1,0 +1,66 @@
+package com.bridgelabz.fundoonotes.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.bridgelabz.fundoonotes.model.Note;
+import com.bridgelabz.fundoonotes.service.NoteService;
+
+@Controller
+@RequestMapping("/user/")
+public class NoteController {
+	@Autowired
+	private NoteService noteService;
+
+	@PostMapping(value = "createnote")
+	public ResponseEntity<String> createNote(@RequestHeader("token") String token, @RequestBody Note note,
+			HttpServletRequest request) {
+		if (noteService.createNote(token, note, request) != null)
+			return new ResponseEntity<String>("Successfully Registered", HttpStatus.OK);
+		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
+	}
+	
+	@GetMapping(value = "retrievenote")
+	public ResponseEntity<?> retrieveNote(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Note> notes = noteService.retrieveNote(token, request);
+		if (!notes.isEmpty()) {
+			return new ResponseEntity<List<Note>>(notes, HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<String>("Please enter the value note id or verify your login",
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PutMapping(value = "updatenote")
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
+			@RequestBody Note note, HttpServletRequest request) {
+		Note newNote = noteService.updateNote(token, noteId, note, request);
+		if (newNote != null)
+			return new ResponseEntity<Note>(newNote, HttpStatus.FOUND);
+		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
+
+	}
+
+	@DeleteMapping(value = "deletenote")
+	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
+			HttpServletRequest request) {
+		Note note = noteService.deleteNote(token, noteId, request);
+		if (note != null)
+			return new ResponseEntity<Note>(note, HttpStatus.FOUND);
+		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
+	}
+}

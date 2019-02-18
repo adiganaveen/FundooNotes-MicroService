@@ -1,0 +1,28 @@
+package com.bridgelabz.fundoonotes.dao;
+
+import com.bridgelabz.fundoonotes.model.User;
+
+public class UserDaoImpl extends JpaRepository<User, Long> implements UserDao {
+
+	@Override
+	public int registerUser(User user) {
+		
+		return 0;
+	}
+
+	@Override
+	public void login() {
+		
+	}
+
+	@Override
+	public void updateUser() {
+		
+	}
+
+	@Override
+	public void deleteUser() {
+		
+	}
+
+}

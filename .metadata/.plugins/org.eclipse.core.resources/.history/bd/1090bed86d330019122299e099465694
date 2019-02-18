@@ -1,0 +1,75 @@
+package com.bridgelabz.fundoonotes.service;
+
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bridgelabz.fundoonotes.model.Note;
+import com.bridgelabz.fundoonotes.repository.NoteRepository;
+import com.bridgelabz.fundoonotes.utility.TokenGenerator;
+
+@Service
+public class NoteServiceImpl implements NoteService {
+
+	@Autowired
+	private NoteRepository noteRepository;
+
+	@Autowired
+	private TokenGenerator tokenGenerator;
+
+	@Override
+	public Note createNote(String token, Note note, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		note.setUserId(userId);
+		noteRepository.save(note);
+		return note;
+	}
+
+	@Override
+	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		Optional<Note> optional = noteRepository.findById(noteId);
+		if (optional.isPresent()) {
+			Note newNote = optional.get();
+			if (newNote.getUserId() == userId) {
+				Note updatedNote=newNoteUpdate(newNote, note);
+				noteRepository.save(updatedNote);
+				return updatedNote;
+			}
+		}
+		return null;
+	}
+	
+	public Note newNoteUpdate(Note newNote,Note note)
+	{
+		if(note.getTitle()!=null)
+		newNote.setTitle(note.getTitle());
+		if(note.getDescription()!=null)
+		newNote.setDescription(note.getDescription());
+		if(note.isArchive()!=false)
+		newNote.setArchive(note.isArchive());
+		if(note.isPinned()!=false)
+		newNote.setPinned(note.isPinned());
+		if(note.isInTrash()!=false)
+		newNote.setInTrash(note.isInTrash());
+		return newNote;
+	}
+
+	@Override
+	public Note deleteNote(String token, int noteId,HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		Optional<Note> optional=noteRepository.findById(noteId);
+		if(optional.isPresent())
+		{
+			Note newNote=optional.get();
+			if(newNote.getUserId()==userId)
+			noteRepository.delete(newNote);
+			return newNote;
+		}
+		return null;
+	}
+
+}

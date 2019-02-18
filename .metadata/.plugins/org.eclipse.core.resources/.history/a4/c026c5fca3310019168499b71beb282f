@@ -1,0 +1,31 @@
+package com.bridgelabz.fundoonotes.dao;
+
+import com.bridgelabz.fundoonotes.model.User;
+
+public class UserDaoImpl implements UserDao {
+
+	@Override
+	public int registerUser(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void login() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateUser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
