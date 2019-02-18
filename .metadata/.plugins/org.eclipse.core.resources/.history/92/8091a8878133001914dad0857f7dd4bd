@@ -2,7 +2,6 @@ package com.bridgelabz.fundoonotes.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -146,28 +145,6 @@ public class NoteServiceImpl implements NoteService {
 				List<Label> labels = note.getLabels();
 				labels.add(label);
 				if (!labels.isEmpty()) {
-					note.setLabels(labels);
-					noteRepository.save(note);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean removeNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
-		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> optionalNote = noteRepository.findById(noteId);
-		Optional<Label> optionalLabel = labelRepository.findById(labelId);
-		if (optionalNote.isPresent() && optionalLabel.isPresent()) {
-			Note note = optionalNote.get();
-			Label label = optionalLabel.get();
-			if (note.getUserId() == userId && label.getUserId() == userId) {
-				List<Label> labels = note.getLabels();
-				if (!labels.isEmpty()) {
-					labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
-							.collect(Collectors.toList());
 					note.setLabels(labels);
 					noteRepository.save(note);
 					return true;

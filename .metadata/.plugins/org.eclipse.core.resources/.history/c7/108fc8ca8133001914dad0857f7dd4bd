@@ -165,13 +165,12 @@ public class NoteServiceImpl implements NoteService {
 			Label label = optionalLabel.get();
 			if (note.getUserId() == userId && label.getUserId() == userId) {
 				List<Label> labels = note.getLabels();
+				labels.add(label);
 				if (!labels.isEmpty()) {
-					labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
-							.collect(Collectors.toList());
-					note.setLabels(labels);
-					noteRepository.save(note);
-					return true;
-				}
+				labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId).collect(Collectors.toList());
+				note.setLabels(labels);
+				noteRepository.save(note);
+				return true;
 			}
 		}
 		return false;
