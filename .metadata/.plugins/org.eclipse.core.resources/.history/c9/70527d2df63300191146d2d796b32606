@@ -1,0 +1,25 @@
+package com.bridgelabz.fundoonotes.configuration;
+
+import javax.validation.Validator;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.beanvalidation.CustomValidatorBean;
+
+@Configuration
+@ComponentScan("com.bridgelabz.fundoonotes")
+public class ApplicationConfiguration {
+
+	@Bean
+	public BCryptPasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public Validator getValidator()
+	{
+		return new CustomValidatorBean();
+	}
+}

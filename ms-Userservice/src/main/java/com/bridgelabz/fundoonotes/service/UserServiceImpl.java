@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +79,10 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+//	
+//	labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
+//			.collect(Collectors.toList());
+//	note.setLabels(labels);
 
 	public User newUserUpdated(User newUser, User user) {
 		if (user.getName() != null)

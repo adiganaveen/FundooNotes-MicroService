@@ -1,16 +1,23 @@
 package com.bridgelabz.fundoonotes.controller;
 
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,18 +32,32 @@ import com.bridgelabz.fundoonotes.service.UserService;
 @Controller
 @RequestMapping("/user/")
 public class UserController {
-	Logger logger = Logger.getLogger(User.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	@Qualifier("userValidator")
+	private Validator validator;
+
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+
 	@PostMapping("register")
-	public ResponseEntity<?> register(@RequestBody User user, HttpServletRequest request) {
-		User newUser = userService.register(user, request);
-		if (newUser != null) {
-			return new ResponseEntity<User>(newUser, HttpStatus.OK);
+	public ResponseEntity<?> register(@Validated @RequestBody User user, BindingResult bindingResult,
+			HttpServletRequest request) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<String>("Invalid entry!!! Please enter valid details", HttpStatus.NOT_FOUND);
+		} else {
+			User newUser = userService.register(user, request);
+			if (newUser != null) {
+				return new ResponseEntity<User>(newUser, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>("error in creating user", HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<String>("error in creating user", HttpStatus.CONFLICT);
 	}
 
 	@GetMapping(value = "activationstatus/{token:.+}")
