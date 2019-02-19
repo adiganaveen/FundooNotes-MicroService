@@ -85,6 +85,14 @@ public class NoteServiceImpl implements NoteService {
 			return newNote;
 		}
 		return null;
+//		Optional<Note> optional = noteRepository.findById(noteId);
+//		if (optional.isPresent()) {
+//			Note newNote = optional.get();
+//			if (newNote.getUserId() == userId)
+//				noteRepository.delete(newNote);
+//			return newNote;
+//		}
+//		return null;
 	}
 
 	@Override
@@ -131,6 +139,14 @@ public class NoteServiceImpl implements NoteService {
 			return newLabel;
 		}
 		return null;
+//		Optional<Label> optional = labelRepository.findById(labelId);
+//		if (optional.isPresent()) {
+//			Label newLabel = optional.get();
+//			if (newLabel.getUserId() == userId)
+//				labelRepository.delete(newLabel);
+//			return newLabel;
+//		}
+//		return null;
 	}
 
 	@Override
