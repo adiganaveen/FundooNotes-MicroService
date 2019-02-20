@@ -10,7 +10,7 @@ public interface UserService {
 
 	User activateUser(String token, HttpServletRequest request);
 
-	User loginUser(User user, HttpServletRequest request, HttpServletResponse response);
+	String loginUser(User user, HttpServletRequest request);
 
 	User updateUser(String token, User user, HttpServletRequest request);
 

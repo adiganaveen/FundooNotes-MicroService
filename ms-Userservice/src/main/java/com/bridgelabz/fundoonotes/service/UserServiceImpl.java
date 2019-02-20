@@ -1,7 +1,6 @@
 package com.bridgelabz.fundoonotes.service;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,14 +51,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(User user, HttpServletRequest request, HttpServletResponse response) {
+	public String loginUser(User user, HttpServletRequest request) {
 		User verifyUser = userRepository.findByEmailId(user.getEmailId());
-		if (bcryptEncoder.matches(user.getPassword(), verifyUser.getPassword()) && verifyUser.isActivationStatus()) {
-			String token = tokenGenerator.generateToken(String.valueOf(verifyUser.getId()));
-			response.setHeader("token", token);
-			return verifyUser;
+		String token=null;
+		if (bcryptEncoder.matches(user.getPassword(), verifyUser.getPassword()) && verifyUser.isActivationStatus()==true) {
+			token = tokenGenerator.generateToken(String.valueOf(verifyUser.getId()));
 		}
-		return null;
+		return token;
 	}
 
 	// return optional
@@ -79,10 +77,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
-//	
-//	labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
-//			.collect(Collectors.toList());
-//	note.setLabels(labels);
 
 	public User newUserUpdated(User newUser, User user) {
 		if (user.getName() != null)

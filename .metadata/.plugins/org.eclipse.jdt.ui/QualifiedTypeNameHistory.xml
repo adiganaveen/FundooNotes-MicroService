@@ -6,7 +6,6 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
 <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
-<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
 <fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.dao.UserRepository"/>
 <fullyQualifiedTypeName name="io.jsonwebtoken.Jwts"/>
 <fullyQualifiedTypeName name="io.jsonwebtoken.SignatureAlgorithm"/>
@@ -37,4 +36,20 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
 <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.DeleteMapping"/>
+<fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.model.User"/>
+<fullyQualifiedTypeName name="org.springframework.validation.annotation.Validated"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="org.springframework.validation.beanvalidation.CustomValidatorBean"/>
+<fullyQualifiedTypeName name="javax.xml.validation.Validator"/>
+<fullyQualifiedTypeName name="javax.validation.Validation"/>
+<fullyQualifiedTypeName name="javax.validation.Validator"/>
+<fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.utility.Validation"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.config.annotation.WebMvcConfigurer"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.config.annotation.CorsRegistry"/>
+<fullyQualifiedTypeName name="java.util.logging.Logger"/>
+<fullyQualifiedTypeName name="org.hibernate.validator.internal.util.logging.LoggerFactory"/>
+<fullyQualifiedTypeName name="org.hibernate.annotations.common.util.impl.LoggerFactory"/>
+<fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
+<fullyQualifiedTypeName name="org.slf4j.Logger"/>
 </qualifiedTypeNameHistroy>

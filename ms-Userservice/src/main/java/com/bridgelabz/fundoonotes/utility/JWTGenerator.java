@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -12,6 +14,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JWTGenerator implements TokenGenerator {
+	
+	private static Logger logger=LoggerFactory.getLogger(JWTGenerator.class);
 
 	public String generateToken(String id) {
 		return Jwts.builder().setId(id).claim("roles", "existingUser").setIssuedAt(new Date())
@@ -22,7 +26,7 @@ public class JWTGenerator implements TokenGenerator {
 		Claims claims = Jwts.parser()        
                 .setSigningKey(DatatypeConverter.parseBase64Binary("secretKey"))
                 .parseClaimsJws(token).getBody();
-             System.out.println("ID: " + claims.getId());
+			logger.info("ID : "+claims.getId());
              return Integer.parseInt(claims.getId());
 	}
 

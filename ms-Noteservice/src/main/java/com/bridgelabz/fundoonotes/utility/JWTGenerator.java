@@ -23,11 +23,10 @@ public class JWTGenerator implements TokenGenerator {
 	}
 
 	public int verifyToken(String token) {
-		Claims claims = Jwts.parser()        
-                .setSigningKey(DatatypeConverter.parseBase64Binary("secretKey"))
-                .parseClaimsJws(token).getBody();
-			logger.info("ID:"+claims.getId());
-             return Integer.parseInt(claims.getId());
+		Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("secretKey"))
+				.parseClaimsJws(token).getBody();
+		logger.info("ID:" + claims.getId());
+		return Integer.parseInt(claims.getId());
 	}
 
 }

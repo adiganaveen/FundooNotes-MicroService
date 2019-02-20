@@ -71,11 +71,12 @@ public class UserController {
 	@PostMapping(value = "login")
 	public ResponseEntity<?> loginUser(@RequestBody User user, HttpServletRequest request,
 			HttpServletResponse response) {
-		User newUser = userService.loginUser(user, request, response);
-		if (newUser != null) {
-			return new ResponseEntity<User>(newUser, HttpStatus.FOUND);
+		String token = userService.loginUser(user, request);
+		if (token != null) {
+			response.setHeader("token",token);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("Incorrect emailId or password", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>("Incorrect emailId or password", HttpStatus.CONFLICT);
 
 	}
 
