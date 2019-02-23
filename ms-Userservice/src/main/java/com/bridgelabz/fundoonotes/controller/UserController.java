@@ -93,9 +93,8 @@ public class UserController {
 
 	@DeleteMapping(value = "delete")
 	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token, HttpServletRequest request) {
-		User user = userService.deleteUser(token, request);
-		if (user != null)
-			return new ResponseEntity<User>(user, HttpStatus.FOUND);
+		if (userService.deleteUser(token, request))
+			return new ResponseEntity<String>("user deleted", HttpStatus.FOUND);
 		return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
 				HttpStatus.NOT_FOUND);
 

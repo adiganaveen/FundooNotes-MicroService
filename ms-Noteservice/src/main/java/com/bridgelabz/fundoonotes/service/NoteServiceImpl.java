@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,49 +43,32 @@ public class NoteServiceImpl implements NoteService {
 	public List<Note> retrieveNote(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		List<Note> notes = noteRepository.findAllByUserId(userId);
-		if (!notes.isEmpty()) {
+		if (!notes.isEmpty())
 			return notes;
-		}
 		return null;
 	}
 
 	@Override
 	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Note> notes = noteRepository.findAllByUserId(userId);
-		if (!notes.isEmpty()) {
-			Note newNote = notes.stream().filter(existingNote -> existingNote.getNoteId() == noteId).findAny().get();
-			Note updatedNote = newNoteUpdate(newNote, note);
-			noteRepository.save(updatedNote);
-			return updatedNote;
-		}
-		return null;
-	}
-
-	public Note newNoteUpdate(Note newNote, Note note) {
-		if (note.getTitle() != null)
-			newNote.setTitle(note.getTitle());
-		if (note.getDescription() != null)
-			newNote.setDescription(note.getDescription());
-		if (note.isArchive() != false)
-			newNote.setArchive(note.isArchive());
-		if (note.isPinned() != false)
-			newNote.setPinned(note.isPinned());
-		if (note.isInTrash() != false)
-			newNote.setInTrash(note.isInTrash());
-		return newNote;
+		Optional<Note> optional = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		return optional
+				.map(newNote -> noteRepository
+						.save(newNote.setTitle(note.getTitle()).setDescription(note.getDescription())
+								.setArchive(note.isArchive()).setInTrash(note.isInTrash()).setPinned(note.isPinned())))
+				.orElseGet(() -> null);
 	}
 
 	@Override
-	public Note deleteNote(String token, int noteId, HttpServletRequest request) {
+	public boolean deleteNote(String token, int noteId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Note> notes = noteRepository.findAllByUserId(userId);
-		if (!notes.isEmpty()) {
-			Note newNote = notes.stream().filter(existingNote -> existingNote.getNoteId() == noteId).findAny().get();
+		Optional<Note> optional = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		if (optional.isPresent()) {
+			Note newNote = optional.get();
 			noteRepository.delete(newNote);
-			return newNote;
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -99,38 +83,29 @@ public class NoteServiceImpl implements NoteService {
 	public List<Label> retrieveLabel(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		List<Label> labels = labelRepository.findAllByUserId(userId);
-		if (!labels.isEmpty()) {
+		if (!labels.isEmpty())
 			return labels;
-		}
 		return null;
 	}
 
 	@Override
 	public Label updateLabel(String token, int labelId, Label label, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Label> labels = labelRepository.findAllByUserId(userId);
-		if (!labels.isEmpty()) {
-			Label newLabel = labels.stream().filter(existingLabel -> existingLabel.getLabelId() == labelId).findAny()
-					.get();
-			if (label.getLabelName() != null)
-				newLabel.setLabelName(label.getLabelName());
-			labelRepository.save(newLabel);
-			return newLabel;
-		}
-		return null;
+		Optional<Label> optional = labelRepository.findByUserIdAndLabelId(userId, labelId);
+		return optional.map(newLabel -> labelRepository.save(newLabel.setLabelName(label.getLabelName())))
+				.orElseGet(() -> null);
 	}
 
 	@Override
-	public Label deleteLabel(String token, int labelId, HttpServletRequest request) {
+	public boolean deleteLabel(String token, int labelId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Label> labels = labelRepository.findAllByUserId(userId);
-		if (!labels.isEmpty()) {
-			Label newLabel = labels.stream().filter(existingLabel -> existingLabel.getLabelId() == labelId).findAny()
-					.get();
+		Optional<Label> optional = labelRepository.findByUserIdAndLabelId(userId, labelId);
+		if (optional.isPresent()) {
+			Label newLabel = optional.get();
 			labelRepository.delete(newLabel);
-			return newLabel;
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 	@Override

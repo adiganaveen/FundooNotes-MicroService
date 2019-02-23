@@ -93,8 +93,9 @@ public class Note implements Serializable {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public Note setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 	public static long getSerialversionuid() {
@@ -155,8 +156,9 @@ public class Note implements Serializable {
 		return labels;
 	}
 
-	public void setLabels(List<Label> labels) {
+	public Note setLabels(List<Label> labels) {
 		this.labels = labels;
+		return this;
 	}
 
 	@Override

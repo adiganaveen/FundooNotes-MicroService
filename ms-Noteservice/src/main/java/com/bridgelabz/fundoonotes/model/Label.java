@@ -29,24 +29,27 @@ public class Label implements Serializable {
 		return labelId;
 	}
 
-	public void setLabelId(int labelId) {
+	public Label setLabelId(int labelId) {
 		this.labelId = labelId;
+		return this;
 	}
 
 	public String getLabelName() {
 		return labelName;
 	}
 
-	public void setLabelName(String labelName) {
+	public Label setLabelName(String labelName) {
 		this.labelName = labelName;
+		return this;
 	}
 
 	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public Label setUserId(int userId) {
 		this.userId = userId;
+		return this;
 	}
 
 	@Override

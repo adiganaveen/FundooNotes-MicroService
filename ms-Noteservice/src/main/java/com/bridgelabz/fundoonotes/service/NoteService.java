@@ -14,13 +14,13 @@ public interface NoteService {
 
 	Note updateNote(String token, int noteId, Note note, HttpServletRequest request);
 
-	Note deleteNote(String token, int noteId, HttpServletRequest request);
+	boolean deleteNote(String token, int noteId, HttpServletRequest request);
 
 	Label createLabel(String token, Label label, HttpServletRequest request);
 
 	Label updateLabel(String token, int labelId, Label label, HttpServletRequest request);
 
-	Label deleteLabel(String token, int labelId, HttpServletRequest request);
+	boolean deleteLabel(String token, int labelId, HttpServletRequest request);
 
 	List<Label> retrieveLabel(String token, HttpServletRequest request);
 

@@ -1,0 +1,8 @@
+1550923662926	Rename local variable 'optional'
+1550923690447	Rename local variable 'newUser'
+1550923761597	Extract local variable 'maybeUser'
+1550923792523	Extract local variable 'maybeUser'
+1550924162155	Extract method 'sendEmail'
+1550924334707	Extract local variable 'maybeUser'
+1550924518009	Extract local variable 'isValidPassword'
+1550924546314	Rename local variable 'verifyUser'
