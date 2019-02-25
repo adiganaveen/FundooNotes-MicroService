@@ -1,6 +1,9 @@
 package com.bridgelabz.fundoonotes.controller;
 
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -61,9 +64,11 @@ public class UserController {
 	}
 
 	@GetMapping(value = "activationstatus/{token:.+}")
-	public ResponseEntity<?> activateUser(@PathVariable("token") String token, HttpServletRequest request) {
-		if (userService.activateUser(token, request) != null)
-			return new ResponseEntity<String>("Activated", HttpStatus.FOUND);
+	public ResponseEntity<?> activateUser(@PathVariable("token") String token, HttpServletRequest request,HttpServletResponse response) throws IOException {
+		if (userService.activateUser(token, request) != null) {
+			response.sendRedirect("http://localhost:4200/login");
+			return new ResponseEntity<String>("Your account has been activated Activated", HttpStatus.OK);
+		}
 		return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
 				HttpStatus.NOT_FOUND);
 	}
@@ -85,7 +90,7 @@ public class UserController {
 			HttpServletRequest request) {
 		User newUser = userService.updateUser(token, user, request);
 		if (newUser != null)
-			return new ResponseEntity<User>(newUser, HttpStatus.FOUND);
+			return new ResponseEntity<User>(newUser, HttpStatus.OK);
 		return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
 				HttpStatus.NOT_FOUND);
 
@@ -94,27 +99,33 @@ public class UserController {
 	@DeleteMapping(value = "delete")
 	public ResponseEntity<?> deleteUser(@RequestHeader("token") String token, HttpServletRequest request) {
 		if (userService.deleteUser(token, request))
-			return new ResponseEntity<String>("user deleted", HttpStatus.FOUND);
+			return new ResponseEntity<String>("user deleted", HttpStatus.OK);
 		return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
 				HttpStatus.NOT_FOUND);
 
 	}
 
 	@PostMapping(value = "forgotpassword")
-	public ResponseEntity<?> forgotpassword(@RequestParam("emailId") String emailId, HttpServletRequest request) {
-		if (userService.forgotPassword(emailId, request))
-			return new ResponseEntity<String>("Link sent to your emailId reset your password over there",
-					HttpStatus.FOUND);
+	public ResponseEntity<?> forgotpassword(@RequestBody User user, HttpServletRequest request) {
+		if (userService.forgotPassword(user, request))
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Email incorrect. Please enter valid email address present in database",
 				HttpStatus.NOT_FOUND);
-
 	}
 
 	@PutMapping(value = "resetpassword/{token:.+}")
 	public ResponseEntity<?> resetpassword(@RequestBody User user, @PathVariable("token") String token,
 			HttpServletRequest request) {
 		if (userService.resetPassword(user, token, request) != null)
-			return new ResponseEntity<String>("Password reset", HttpStatus.FOUND);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("couldnot reset the password", HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping(value = "allusers")
+	public ResponseEntity<?> allUsers(HttpServletRequest request) {
+		List<User> users=userService.allUsers(request);
+		if (!users.isEmpty())
+			return new ResponseEntity<List<User>>(users,HttpStatus.OK);
 		return new ResponseEntity<String>("couldnot reset the password", HttpStatus.NOT_FOUND);
 	}
 }

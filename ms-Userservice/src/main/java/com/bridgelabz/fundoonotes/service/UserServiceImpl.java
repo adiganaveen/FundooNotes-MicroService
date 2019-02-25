@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -42,16 +43,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User activateUser(String token, HttpServletRequest request) {
 		int id = tokenGenerator.verifyToken(token);
-		Optional<User> optional = userRepository.findById(id);
-		return optional.map(user -> userRepository.save(user.setActivationStatus(true))).orElseGet(() -> null);
+		Optional<User> maybeUser = userRepository.findById(id);
+		return maybeUser.map(user -> userRepository.save(user.setActivationStatus(true))).orElseGet(() -> null);
 	}
 
 	@Override
 	public String loginUser(User user, HttpServletRequest request) {
+		Optional<User> maybeUser = userRepository.findByEmailId(user.getEmailId());
 		Predicate<User> isValidPassword = existingUser -> bcryptEncoder.matches(user.getPassword(),
 				existingUser.getPassword()) && existingUser.isActivationStatus();
-
-		Optional<User> maybeUser = userRepository.findByEmailId(user.getEmailId());
 		return maybeUser.filter(isValidPassword)
 				.map(existingUser -> tokenGenerator.generateToken(String.valueOf(existingUser.getId())))
 				.orElseGet(() -> null);
@@ -61,9 +61,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUser(String token, User user, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<User> optional = userRepository.findById(userId);
-		return optional
-				.map(newUser -> userRepository.save(newUser.setEmailId(user.getEmailId()).setName(user.getName())
+		Optional<User> maybeUser = userRepository.findById(userId);
+		return maybeUser.map(
+				existingUser -> userRepository.save(existingUser.setEmailId(user.getEmailId()).setName(user.getName())
 						.setMobileNumber(user.getMobileNumber()).setPassword(bcryptEncoder.encode(user.getPassword()))))
 				.orElseGet(() -> null);
 	}
@@ -71,21 +71,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean deleteUser(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<User> optional = userRepository.findById(userId);
-		if (optional.isPresent()) {
-			User newUser = optional.get();
-			userRepository.delete(newUser);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean forgotPassword(String emailId, HttpServletRequest request) {
-		Optional<User> maybeUser = userRepository.findByEmailId(emailId);
-		return maybeUser.map(user -> {
-			sendEmail(request, user, "/resetpassword/", "Reset password verification");
+		Optional<User> maybeUser = userRepository.findById(userId);
+		return maybeUser.map(existingUser -> {
+			userRepository.delete(existingUser);
 			return true;
 		}).orElseGet(() -> false);
+	}
+
+	public boolean forgotPassword(User user, HttpServletRequest request) {
+		Optional<User> maybeUser = userRepository.findByEmailId(user.getEmailId());
+		return maybeUser.map(existingUser -> {
+			forgotpasswordEmail(request, existingUser, "/resetpassword/", "Reset password verification");
+			return true;
+		}).orElseGet(() -> false);
+	}
+
+	private void forgotpasswordEmail(HttpServletRequest request, User user, String domainUrl, String message) {
+		String token = tokenGenerator.generateToken(String.valueOf(user.getId()));
+		String forgotPasswordUrl = "http://localhost:4200/resetpassword/" + token;
+		emailUtil.sendEmail("", "", forgotPasswordUrl);
 	}
 
 	private void sendEmail(HttpServletRequest request, User user, String domainUrl, String message) {
@@ -101,6 +105,16 @@ public class UserServiceImpl implements UserService {
 		return maybeUser.map(
 				existingUser -> userRepository.save(existingUser.setPassword(bcryptEncoder.encode(user.getPassword()))))
 				.orElseGet(() -> null);
+	}
+
+	@Override
+	public List<User> allUsers(HttpServletRequest request) {
+		List<User> users=userRepository.findAll();
+		if(!users.isEmpty())
+		{
+			return users;
+		}
+		return null;
 	}
 
 }

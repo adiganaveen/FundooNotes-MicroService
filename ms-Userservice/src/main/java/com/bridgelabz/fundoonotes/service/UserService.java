@@ -1,5 +1,7 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +18,10 @@ public interface UserService {
 
 	boolean deleteUser(String token, HttpServletRequest request);
 
-	boolean forgotPassword(String emailId, HttpServletRequest request);
+	boolean forgotPassword(User user, HttpServletRequest request);
 
 	User resetPassword(User user, String token, HttpServletRequest request);
+	
+	List<User> allUsers(HttpServletRequest request);
 
 }

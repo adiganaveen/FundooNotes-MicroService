@@ -51,10 +51,10 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> optional = noteRepository.findByUserIdAndNoteId(userId, noteId);
-		return optional
-				.map(newNote -> noteRepository
-						.save(newNote.setTitle(note.getTitle()).setDescription(note.getDescription())
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		return maybeNote
+				.map(existingNote -> noteRepository
+						.save(existingNote.setTitle(note.getTitle()).setDescription(note.getDescription())
 								.setArchive(note.isArchive()).setInTrash(note.isInTrash()).setPinned(note.isPinned())))
 				.orElseGet(() -> null);
 	}
@@ -62,13 +62,9 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public boolean deleteNote(String token, int noteId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> optional = noteRepository.findByUserIdAndNoteId(userId, noteId);
-		if (optional.isPresent()) {
-			Note newNote = optional.get();
-			noteRepository.delete(newNote);
-			return true;
-		}
-		return false;
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		return maybeNote.map(existingNote -> {noteRepository.delete(existingNote);
+											return true;}).orElseGet(()->false);
 	}
 
 	@Override
@@ -91,21 +87,17 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Label updateLabel(String token, int labelId, Label label, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Label> optional = labelRepository.findByUserIdAndLabelId(userId, labelId);
-		return optional.map(newLabel -> labelRepository.save(newLabel.setLabelName(label.getLabelName())))
+		Optional<Label> maybeLabel = labelRepository.findByUserIdAndLabelId(userId, labelId);
+		return maybeLabel.map(existingLabel -> labelRepository.save(existingLabel.setLabelName(label.getLabelName())))
 				.orElseGet(() -> null);
 	}
 
 	@Override
 	public boolean deleteLabel(String token, int labelId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Label> optional = labelRepository.findByUserIdAndLabelId(userId, labelId);
-		if (optional.isPresent()) {
-			Label newLabel = optional.get();
-			labelRepository.delete(newLabel);
-			return true;
-		}
-		return false;
+		Optional<Label> maybeLabel = labelRepository.findByUserIdAndLabelId(userId, labelId);
+		return maybeLabel.map(existingLabel -> {labelRepository.delete(existingLabel);
+											return true;}).orElseGet(()->false);
 	}
 
 	@Override
