@@ -44,7 +44,7 @@ public class NoteController {
 	public ResponseEntity<?> retrieveNote(@RequestHeader("token") String token, HttpServletRequest request) {
 		List<Note> notes = noteService.retrieveNote(token, request);
 		if (!notes.isEmpty())
-			return new ResponseEntity<List<Note>>(notes, HttpStatus.FOUND);
+			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
 
