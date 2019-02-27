@@ -49,9 +49,10 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
+	public Note updateNote(String token, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, note.getNoteId());
+		logger.info(String.valueOf(note.getNoteId()));
 		return maybeNote
 				.map(existingNote -> noteRepository
 						.save(existingNote.setTitle(note.getTitle()).setDescription(note.getDescription())
@@ -60,9 +61,9 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean deleteNote(String token, int noteId, HttpServletRequest request) {
+	public boolean deleteNote(String token,Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, note.getNoteId());
 		return maybeNote.map(existingNote -> {noteRepository.delete(existingNote);
 											return true;}).orElseGet(()->false);
 	}

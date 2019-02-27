@@ -26,17 +26,17 @@ import com.bridgelabz.fundoonotes.service.NoteService;
 @Controller
 @RequestMapping("/user/")
 public class NoteController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(NoteController.class);
-	
+
 	@Autowired
 	private NoteService noteService;
 
 	@PostMapping(value = "createnote")
-	public ResponseEntity<String> createNote(@RequestHeader("token") String token, @RequestBody Note note,
+	public ResponseEntity<?> createNote(@RequestHeader("token") String token, @RequestBody Note note,
 			HttpServletRequest request) {
 		if (noteService.createNote(token, note, request) != null)
-			return new ResponseEntity<String>("Successfully Registered", HttpStatus.OK);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 	}
 
@@ -49,20 +49,20 @@ public class NoteController {
 	}
 
 	@PutMapping(value = "updatenote")
-	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
-			@RequestBody Note note, HttpServletRequest request) {
-		Note newNote = noteService.updateNote(token, noteId, note, request);
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestBody Note note,
+			HttpServletRequest request) {
+		Note newNote = noteService.updateNote(token, note, request);
 		if (newNote != null)
-			return new ResponseEntity<Note>(newNote, HttpStatus.FOUND);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 
 	}
 
-	@DeleteMapping(value = "deletenote")
-	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
+	@PostMapping(value = "deletenote")
+	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestBody Note note,
 			HttpServletRequest request) {
-		if (noteService.deleteNote(token, noteId, request))
-			return new ResponseEntity<String>("note deleted", HttpStatus.FOUND);
+		if (noteService.deleteNote(token, note, request))
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
 
@@ -95,7 +95,7 @@ public class NoteController {
 	@DeleteMapping(value = "deletelabel")
 	public ResponseEntity<?> deleteLabel(@RequestHeader("token") String token, @RequestParam("labelId") int labelId,
 			HttpServletRequest request) {
-		if ( noteService.deleteLabel(token, labelId, request))
+		if (noteService.deleteLabel(token, labelId, request))
 			return new ResponseEntity<String>("label deleted", HttpStatus.FOUND);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
