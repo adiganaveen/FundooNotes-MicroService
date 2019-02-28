@@ -42,17 +42,17 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public List<Note> retrieveNote(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Note> notes = noteRepository.findAllByUserId(userId);
+		List<Note> notes = noteRepository.findAllByUserIdAndIsArchive(userId, false);
 		if (!notes.isEmpty())
 			return notes;
 		return null;
 	}
 
 	@Override
-	public Note updateNote(String token, Note note, HttpServletRequest request) {
+	public Note updateNote(String token,int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, note.getNoteId());
-		logger.info(String.valueOf(note.getNoteId()));
+		logger.info("note "+noteId);
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
 		return maybeNote
 				.map(existingNote -> noteRepository
 						.save(existingNote.setTitle(note.getTitle()).setDescription(note.getDescription())
@@ -61,9 +61,9 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean deleteNote(String token,Note note, HttpServletRequest request) {
+	public boolean deleteNote(String token,int noteId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, note.getNoteId());
+		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
 		return maybeNote.map(existingNote -> {noteRepository.delete(existingNote);
 											return true;}).orElseGet(()->false);
 	}
@@ -132,5 +132,14 @@ public class NoteServiceImpl implements NoteService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<Note> archiveNote(String token, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		List<Note> notes = noteRepository.findAllByUserIdAndIsArchive(userId, true);
+		if (!notes.isEmpty())
+			return notes;
+		return null;
 	}
 }

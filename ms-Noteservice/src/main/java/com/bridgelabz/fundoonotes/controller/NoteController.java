@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,21 +48,28 @@ public class NoteController {
 			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
-
-	@PutMapping(value = "updatenote")
-	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @RequestBody Note note,
-			HttpServletRequest request) {
-		Note newNote = noteService.updateNote(token, note, request);
-		if (newNote != null)
-			return new ResponseEntity<Void>(HttpStatus.OK);
+	
+	@GetMapping(value = "archivenote")
+	public ResponseEntity<?> archiveNote(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Note> notes = noteService.archiveNote(token, request);
+		if (!notes.isEmpty())
+			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
-
 	}
 
-	@PostMapping(value = "deletenote")
-	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @RequestBody Note note,
+	@PutMapping(value = "updatenote/{noteId:.+}")
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token,@PathVariable("noteId") int noteId, @RequestBody Note note,
 			HttpServletRequest request) {
-		if (noteService.deleteNote(token, note, request))
+		Note newNote = noteService.updateNote(token,noteId, note, request);
+		if (newNote != null)
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.CONFLICT);
+	}
+
+	@DeleteMapping(value = "deletenote/{noteId:.+}")
+	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @PathVariable("noteId") int noteId,
+			HttpServletRequest request) {
+		if (noteService.deleteNote(token, noteId, request))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
