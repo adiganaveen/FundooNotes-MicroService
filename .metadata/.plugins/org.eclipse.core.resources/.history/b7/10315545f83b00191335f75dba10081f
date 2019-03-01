@@ -48,6 +48,14 @@ public class NoteController {
 			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping(value = "archivenote")
+	public ResponseEntity<?> archiveNote(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Note> notes = noteService.archiveNote(token, request);
+		if (!notes.isEmpty())
+			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
+		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
+	}
 
 	@PutMapping(value = "updatenote/{noteId:.+}")
 	public ResponseEntity<?> updateNote(@RequestHeader("token") String token,@PathVariable("noteId") int noteId, @RequestBody Note note,

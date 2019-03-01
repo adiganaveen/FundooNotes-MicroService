@@ -42,7 +42,7 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public List<Note> retrieveNote(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Note> notes = noteRepository.findAllByUserId(userId);
+		List<Note> notes = noteRepository.findAllByUserIdAndIsArchive(userId, false);
 		if (!notes.isEmpty())
 			return notes;
 		return null;
@@ -134,4 +134,12 @@ public class NoteServiceImpl implements NoteService {
 		return false;
 	}
 
+//	@Override
+//	public List<Note> archiveNote(String token, HttpServletRequest request) {
+//		int userId = tokenGenerator.verifyToken(token);
+//		List<Note> notes = noteRepository.findAllByUserIdAndIsArchive(userId, true);
+//		if (!notes.isEmpty())
+//			return notes;
+//		return null;
+//	}
 }

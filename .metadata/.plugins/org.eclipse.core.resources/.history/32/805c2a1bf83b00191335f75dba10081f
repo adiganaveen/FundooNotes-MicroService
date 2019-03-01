@@ -10,7 +10,7 @@ import com.bridgelabz.fundoonotes.model.Note;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
-	List<Note> findAllByUserId(int userId);
+	List<Note> findAllByUserIdAndIsArchive(int userId,boolean archiveOrNot);
 
 	Note findByNoteId(int noteId);
 

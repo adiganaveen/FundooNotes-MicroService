@@ -12,7 +12,7 @@ public interface NoteService {
 
 	List<Note> retrieveNote(String token, HttpServletRequest request);
 	
-//	List<Note> archiveNote(String token, HttpServletRequest request);
+	List<Note> archiveNote(String token, HttpServletRequest request);
 
 	Note updateNote(String token,int noteId, Note note, HttpServletRequest request);
 
