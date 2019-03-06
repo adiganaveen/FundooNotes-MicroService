@@ -102,10 +102,11 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean addNoteLabel(int noteId, int labelId, HttpServletRequest request) {
+	public boolean addNoteLabel(String token, int noteId, int labelId, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
 		Note note = noteRepository.findByNoteId(noteId);
 		Label label = labelRepository.findByLabelId(labelId);
-		if (note!=null && label!=null) {
+		if (note.getUserId() == userId && label.getUserId() == userId) {
 			List<Label> labels = note.getLabels();
 			labels.add(label);
 			note.setLabels(labels);
@@ -117,6 +118,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public boolean removeNoteLabel(int noteId, int labelId, HttpServletRequest request) {
+//		int userId = tokenGenerator.verifyToken(token);
 		Note note = noteRepository.findByNoteId(noteId);
 		Label label = labelRepository.findByLabelId(labelId);
 		if (note!=null && label!=null) {

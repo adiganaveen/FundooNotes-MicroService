@@ -102,19 +102,19 @@ public class NoteController {
 	}
 
 	@PutMapping(value = "addnotelabel")
-	public ResponseEntity<?> addNoteLabel(@RequestParam("noteId") int noteId,
+	public ResponseEntity<?> addNoteLabel(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
 			@RequestParam("labelId") int labelId, HttpServletRequest request) {
-		if (noteService.addNoteLabel( noteId, labelId, request))
-			return new ResponseEntity<Void>(HttpStatus.OK);
+		if (noteService.addNoteLabel(token, noteId, labelId, request))
+			return new ResponseEntity<String>("Successfully mapped", HttpStatus.OK);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
 	}
 
 	@DeleteMapping(value = "removenotelabel")
-	public ResponseEntity<?> removeNoteLabel(@RequestParam("noteId") int noteId,
+	public ResponseEntity<?> removeNoteLabel(@RequestHeader("token") String token, @RequestParam("noteId") int noteId,
 			@RequestParam("labelId") int labelId, HttpServletRequest request) {
-		if (noteService.removeNoteLabel( noteId, labelId, request))
-			return new ResponseEntity<Void>(HttpStatus.OK);
+		if (noteService.removeNoteLabel(token, noteId, labelId, request))
+			return new ResponseEntity<String>("Successfully mapped", HttpStatus.OK);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
 	}
