@@ -101,10 +101,10 @@ public class NoteController {
 				HttpStatus.NOT_FOUND);
 	}
 
-	@PutMapping(value = "addnotelabel")
-	public ResponseEntity<?> addNoteLabel(@RequestParam("noteId") int noteId,
-			@RequestParam("labelId") int labelId, HttpServletRequest request) {
-		if (noteService.addNoteLabel( noteId, labelId, request))
+	@PutMapping(value = "addnotelabel/{noteId:.+}")
+	public ResponseEntity<?> addNoteLabel(@PathVariable(value ="noteId") int noteId,
+			@RequestBody Label label, HttpServletRequest request) {
+		if (noteService.addNoteLabel( noteId, label, request))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);

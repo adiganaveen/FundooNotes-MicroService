@@ -102,9 +102,9 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public boolean addNoteLabel(int noteId, int labelId, HttpServletRequest request) {
+	public boolean addNoteLabel(int noteId, Label oldLabel, HttpServletRequest request) {
 		Note note = noteRepository.findByNoteId(noteId);
-		Label label = labelRepository.findByLabelId(labelId);
+		Label label = labelRepository.findByLabelId(oldLabel.getLabelId());
 		if (note!=null && label!=null) {
 			List<Label> labels = note.getLabels();
 			labels.add(label);
