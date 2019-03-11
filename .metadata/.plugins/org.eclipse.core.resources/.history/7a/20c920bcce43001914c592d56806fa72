@@ -69,8 +69,7 @@ public class NoteController {
 	@PostMapping(value = "createlabel")
 	public ResponseEntity<?> createLabel(@RequestHeader("token") String token, @RequestBody Label label,
 			HttpServletRequest request) {
-		Label newLabel=noteService.createLabel(token, label, request);
-		if (newLabel != null)
+		if (noteService.createLabel(token, label, request) != null)
 			return new ResponseEntity<Label>(newLabel,HttpStatus.OK);
 		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 	}
