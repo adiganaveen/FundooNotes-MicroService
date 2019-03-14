@@ -29,5 +29,5 @@ public interface NoteService {
 	boolean addNoteLabel( int noteId, Label label, HttpServletRequest request);
 
 	boolean removeNoteLabel( int noteId, int labelId, HttpServletRequest request);
-
+	
 }

@@ -1,14 +1,17 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.dao.UserRepository;
 import com.bridgelabz.fundoonotes.model.User;
@@ -109,12 +112,42 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> allUsers(HttpServletRequest request) {
-		List<User> users=userRepository.findAll();
-		if(!users.isEmpty())
-		{
+		List<User> users = userRepository.findAll();
+		if (!users.isEmpty()) {
 			return users;
 		}
 		return null;
 	}
 
+	@Override
+	public User colaborator(String token, HttpServletRequest request) {
+		int userId = tokenGenerator.verifyToken(token);
+		Optional<User> maybeUser = userRepository.findById(userId);
+		User user = maybeUser.get();
+		return user;
+	}
+
+	@Override
+	public boolean store(MultipartFile file, String token) throws IOException {
+		User user = userRepository.findById(tokenGenerator.verifyToken(token)).get();
+		byte[] profilePicture = file.getBytes();
+		if (profilePicture.length > 0) {
+			user.setProfilePicture(profilePicture);
+			userRepository.save(user);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public User getFile(String token) {
+		return userRepository.findById(tokenGenerator.verifyToken(token)).get();
+	}
+
+	@Override
+	public User deleteFile(String token) {
+		User user = userRepository.findById(tokenGenerator.verifyToken(token)).get();
+		userRepository.save(user.setProfilePicture(null));
+		return user;
+	}
 }

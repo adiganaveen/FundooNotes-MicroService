@@ -119,5 +119,5 @@ public class NoteController {
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
 	}
-
+	
 }

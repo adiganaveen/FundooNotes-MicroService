@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 
@@ -34,6 +35,10 @@ public class User implements Serializable {
 
 	@Column(name = "activation_status")
 	private boolean activationStatus;
+	
+	@Lob
+	@Column(name = "profilePicture")
+	private byte[] profilePicture;
 
 	public int getId() {
 		return id;
@@ -87,6 +92,19 @@ public class User implements Serializable {
 	public User setMobileNumber(long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 		return this;
+	}
+
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+
+	public User setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
+		return this;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

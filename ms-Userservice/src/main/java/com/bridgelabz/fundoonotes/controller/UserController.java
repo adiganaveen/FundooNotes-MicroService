@@ -1,6 +1,5 @@
 package com.bridgelabz.fundoonotes.controller;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -11,7 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.model.User;
 import com.bridgelabz.fundoonotes.service.UserService;
@@ -64,7 +68,8 @@ public class UserController {
 	}
 
 	@GetMapping(value = "activationstatus/{token:.+}")
-	public ResponseEntity<?> activateUser(@PathVariable("token") String token, HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public ResponseEntity<?> activateUser(@PathVariable("token") String token, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		if (userService.activateUser(token, request) != null) {
 			response.sendRedirect("http://localhost:4200/login");
 			return new ResponseEntity<String>("Your account has been activated Activated", HttpStatus.OK);
@@ -78,7 +83,7 @@ public class UserController {
 			HttpServletResponse response) {
 		String token = userService.loginUser(user, request);
 		if (token != null) {
-			response.setHeader("token",token);
+			response.setHeader("token", token);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Incorrect emailId or password", HttpStatus.CONFLICT);
@@ -120,12 +125,44 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("couldnot reset the password", HttpStatus.NOT_FOUND);
 	}
-	
+
 	@GetMapping(value = "allusers")
 	public ResponseEntity<?> allUsers(HttpServletRequest request) {
-		List<User> users=userService.allUsers(request);
+		List<User> users = userService.allUsers(request);
 		if (!users.isEmpty())
-			return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+			return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 		return new ResponseEntity<String>("couldnot reset the password", HttpStatus.NOT_FOUND);
 	}
+
+	@GetMapping(value = "colaborator")
+	public ResponseEntity<?> colaborator(@RequestHeader("token") String token, HttpServletRequest request) {
+		User user = userService.colaborator(token, request);
+		if (user != null)
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<String>("user not found", HttpStatus.NOT_FOUND);
+	}
+
+	@PostMapping(value = "photo/{token:.+}")
+	public ResponseEntity<?> storeFile(@RequestParam("file") MultipartFile file, @PathVariable("token") String token)
+			throws IOException {
+		if (userService.store(file, token))
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("Users couldn't be fetched", HttpStatus.CONFLICT);
+	}
+	
+	@GetMapping("photo")
+    public ResponseEntity<?> downloadFile(@RequestHeader("token") String token) {
+        User user = userService.getFile(token);
+        if(user!=null)
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+        return new ResponseEntity<String>("Couldnot download the image", HttpStatus.CONFLICT);
+    }
+	
+	@DeleteMapping("photo")
+    public ResponseEntity<?> deleteFile(@RequestHeader("token") String token) {
+        User user = userService.deleteFile(token);
+        if(user!=null)
+			return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+    }
 }
