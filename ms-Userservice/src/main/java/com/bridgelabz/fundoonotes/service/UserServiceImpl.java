@@ -150,4 +150,15 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user.setProfilePicture(null));
 		return user;
 	}
+
+	@Override
+	public User verifyEmail(String token, String email, HttpServletRequest request) {
+		User user = userRepository.findById(tokenGenerator.verifyToken(token)).get();
+		List<User> users = userRepository.findAllByEmailId(email);
+		if (users.size() == 1) {
+			User newUser = users.get(0);
+			return newUser;
+		}
+		return null;
+	}
 }

@@ -141,6 +141,14 @@ public class UserController {
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		return new ResponseEntity<String>("user not found", HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping(value = "verifyemail/{emailId:.+}")
+	public ResponseEntity<?> verifyEmail(@RequestHeader("token") String token,@PathVariable("emailId") String email, HttpServletRequest request) {
+		User newUser=userService.verifyEmail(token,email,request);
+		if (newUser!=null)
+			return new ResponseEntity<User>(newUser,HttpStatus.OK);
+		return new ResponseEntity<String>("user not found", HttpStatus.NOT_FOUND);
+	}
 
 	@PostMapping(value = "photo/{token:.+}")
 	public ResponseEntity<?> storeFile(@RequestParam("file") MultipartFile file, @PathVariable("token") String token)

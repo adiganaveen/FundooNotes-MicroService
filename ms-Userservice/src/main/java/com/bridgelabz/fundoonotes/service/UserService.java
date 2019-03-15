@@ -33,6 +33,8 @@ public interface UserService {
 
 	User getFile(String token);
 	
+	User verifyEmail(String token,String email,HttpServletRequest request);
+	
 	User deleteFile(String token);
 
 }
