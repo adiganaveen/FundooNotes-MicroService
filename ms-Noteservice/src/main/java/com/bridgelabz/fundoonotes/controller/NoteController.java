@@ -120,4 +120,12 @@ public class NoteController {
 				HttpStatus.NOT_FOUND);
 	}
 	
+	@PostMapping(value = "createcollaborator/{noteId}/{userId}")
+	public ResponseEntity<?> createCollaborator(@RequestHeader("token") String token, @PathVariable("noteId") int noteId,
+			@PathVariable("userId") int userId,HttpServletRequest request) {
+		if (noteService.createCollaborator(token, noteId, userId))
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("There was a issue raised cannot create a collaborator", HttpStatus.CONFLICT);
+	}
+	
 }

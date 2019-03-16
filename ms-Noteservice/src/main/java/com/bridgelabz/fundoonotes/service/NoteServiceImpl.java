@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.fundoonotes.model.Collaborator;
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
+import com.bridgelabz.fundoonotes.repository.CollaboratorRepository;
 import com.bridgelabz.fundoonotes.repository.LabelRepository;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.utility.TokenGenerator;
@@ -24,6 +26,9 @@ public class NoteServiceImpl implements NoteService {
 
 	@Autowired
 	private NoteRepository noteRepository;
+
+	@Autowired
+	private CollaboratorRepository collaboratorRepository;
 
 	@Autowired
 	private LabelRepository labelRepository;
@@ -49,23 +54,25 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Note updateNote(String token,int noteId, Note note, HttpServletRequest request) {
+	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		logger.info("note "+noteId);
+		logger.info("note " + noteId);
 		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
 		return maybeNote
 				.map(existingNote -> noteRepository
 						.save(existingNote.setTitle(note.getTitle()).setDescription(note.getDescription())
-								.setArchive(note.isArchive()).setInTrash(note.isInTrash()).setPinned(note.isPinned())))
+								.setArchive(note.isArchive()).setInTrash(note.isInTrash()).setColor(note.getColor()).setPinned(note.isPinned())))
 				.orElseGet(() -> null);
 	}
 
 	@Override
-	public boolean deleteNote(String token,int noteId, HttpServletRequest request) {
+	public boolean deleteNote(String token, int noteId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
-		return maybeNote.map(existingNote -> {noteRepository.delete(existingNote);
-											return true;}).orElseGet(()->false);
+		return maybeNote.map(existingNote -> {
+			noteRepository.delete(existingNote);
+			return true;
+		}).orElseGet(() -> false);
 	}
 
 	@Override
@@ -97,15 +104,17 @@ public class NoteServiceImpl implements NoteService {
 	public boolean deleteLabel(String token, int labelId, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		Optional<Label> maybeLabel = labelRepository.findByUserIdAndLabelId(userId, labelId);
-		return maybeLabel.map(existingLabel -> {labelRepository.delete(existingLabel);
-											return true;}).orElseGet(()->false);
+		return maybeLabel.map(existingLabel -> {
+			labelRepository.delete(existingLabel);
+			return true;
+		}).orElseGet(() -> false);
 	}
 
 	@Override
 	public boolean addNoteLabel(int noteId, Label oldLabel, HttpServletRequest request) {
 		Note note = noteRepository.findByNoteId(noteId);
 		Label label = labelRepository.findByLabelId(oldLabel.getLabelId());
-		if (note!=null && label!=null) {
+		if (note != null && label != null) {
 			List<Label> labels = note.getLabels();
 			labels.add(label);
 			note.setLabels(labels);
@@ -119,7 +128,7 @@ public class NoteServiceImpl implements NoteService {
 	public boolean removeNoteLabel(int noteId, int labelId, HttpServletRequest request) {
 		Note note = noteRepository.findByNoteId(noteId);
 		Label label = labelRepository.findByLabelId(labelId);
-		if (note!=null && label!=null) {
+		if (note != null && label != null) {
 			List<Label> labels = note.getLabels();
 			if (!labels.isEmpty()) {
 				labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
@@ -129,6 +138,15 @@ public class NoteServiceImpl implements NoteService {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public boolean createCollaborator(String token, int noteId, int userId) {
+		Collaborator collaborator = new Collaborator();
+		collaborator = collaboratorRepository.save(collaborator.setNoteId(noteId).setUserId(userId));
+		if (collaborator != null)
+			return true;
 		return false;
 	}
 

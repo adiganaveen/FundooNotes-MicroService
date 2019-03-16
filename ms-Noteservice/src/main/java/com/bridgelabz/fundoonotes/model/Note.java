@@ -3,6 +3,7 @@ package com.bridgelabz.fundoonotes.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,10 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Note")
@@ -54,6 +58,13 @@ public class Note implements Serializable {
 
 	@Column(name = "userId")
 	private int userId;
+
+	@Column(name = "color")
+	private String color;
+
+//	@OneToMany(mappedBy = "noteId")
+//	@JsonIgnore
+//	private Set<Collaborator> collaborators;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Label.class, cascade = { CascadeType.ALL })
 	@JoinTable(name = "Note_Label", joinColumns = { @JoinColumn(name = "noteId") }, inverseJoinColumns = {
@@ -161,10 +172,20 @@ public class Note implements Serializable {
 		return this;
 	}
 
+	public String getColor() {
+		return color;
+	}
+
+	public Note setColor(String color) {
+		this.color = color;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "Note [noteId=" + noteId + ", title=" + title + ", description=" + description + ", createdTime="
 				+ createdTime + ", updatedTime=" + updatedTime + ", isArchive=" + isArchive + ", isPinned=" + isPinned
-				+ ", inTrash=" + inTrash + ", userId=" + userId + ", labels=" + labels + "]";
+				+ ", inTrash=" + inTrash + ", userId=" + userId + ", color=" + color + ", labels=" + labels + "]";
 	}
+
 }
