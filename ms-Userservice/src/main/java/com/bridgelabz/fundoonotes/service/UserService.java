@@ -36,5 +36,7 @@ public interface UserService {
 	User verifyEmail(String token,String email,HttpServletRequest request);
 	
 	User deleteFile(String token);
-
+	
+	User getCollaboratedUser(int userId);
+	
 }

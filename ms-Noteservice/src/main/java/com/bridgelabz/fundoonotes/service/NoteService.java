@@ -32,4 +32,7 @@ public interface NoteService {
 	
 	boolean createCollaborator(String token,int noteId, int userId);
 	
+	boolean removeCollaborator(int userId,int noteId);
+
+	
 }

@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,9 +48,16 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public List<Note> retrieveNote(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
+		List<Note> collabNotes = new ArrayList<>();
+		List<Collaborator> collaborators = collaboratorRepository.findAllByUserId(userId);
+		for (Collaborator collaborator : collaborators) {
+			collabNotes.add(noteRepository.findById(collaborator.getNoteId()).get());
+		}
 		List<Note> notes = noteRepository.findAllByUserId(userId);
-		if (!notes.isEmpty())
+		notes.addAll(collabNotes);
+		if (!notes.isEmpty()) {
 			return notes;
+		}
 		return null;
 	}
 
@@ -57,12 +65,10 @@ public class NoteServiceImpl implements NoteService {
 	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		logger.info("note " + noteId);
-		Optional<Note> maybeNote = noteRepository.findByUserIdAndNoteId(userId, noteId);
-		return maybeNote
-				.map(existingNote -> noteRepository
-						.save(existingNote.setTitle(note.getTitle()).setDescription(note.getDescription())
-								.setArchive(note.isArchive()).setInTrash(note.isInTrash()).setColor(note.getColor()).setPinned(note.isPinned())))
-				.orElseGet(() -> null);
+		Optional<Note> maybeNote = noteRepository.findById(noteId);
+		return maybeNote.map(existingNote -> noteRepository.save(existingNote.setTitle(note.getTitle())
+				.setDescription(note.getDescription()).setArchive(note.isArchive()).setInTrash(note.isInTrash())
+				.setColor(note.getColor()).setPinned(note.isPinned()))).orElseGet(() -> null);
 	}
 
 	@Override
@@ -147,6 +153,16 @@ public class NoteServiceImpl implements NoteService {
 		collaborator = collaboratorRepository.save(collaborator.setNoteId(noteId).setUserId(userId));
 		if (collaborator != null)
 			return true;
+		return false;
+	}
+
+	@Override
+	public boolean removeCollaborator(int userId, int noteId) {
+		Collaborator collaborator = collaboratorRepository.findByNoteIdAndUserId(noteId, userId).get();
+		if (collaborator != null) {
+			collaboratorRepository.delete(collaborator);
+			return true;
+		}
 		return false;
 	}
 

@@ -173,4 +173,13 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
         return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
     }
+	
+	@GetMapping("getcollaborateduser/{userId}")
+    public ResponseEntity<?> getCollaboratedUser(@PathVariable("userId") int userId) {
+        User user = userService.getCollaboratedUser(userId);
+        if(user!=null)
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+    }
+	
 }

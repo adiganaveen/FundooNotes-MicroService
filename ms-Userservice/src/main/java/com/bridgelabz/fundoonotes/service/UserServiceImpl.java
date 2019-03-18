@@ -161,4 +161,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+
+	@Override
+	public User getCollaboratedUser(int userId) {
+		User user=userRepository.findById(userId).get();
+		return user;
+	}
+
 }

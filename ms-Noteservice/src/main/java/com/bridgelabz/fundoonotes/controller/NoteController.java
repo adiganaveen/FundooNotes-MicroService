@@ -128,4 +128,12 @@ public class NoteController {
 		return new ResponseEntity<String>("There was a issue raised cannot create a collaborator", HttpStatus.CONFLICT);
 	}
 	
+	@DeleteMapping("removecollaborator/{userId}/{noteId}")
+    public ResponseEntity<?> removeCollaborator(@PathVariable("userId") int userId,
+    		@PathVariable("noteId") int noteId) {
+        if(noteService.removeCollaborator(userId,noteId))
+			return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+    }
+	
 }
