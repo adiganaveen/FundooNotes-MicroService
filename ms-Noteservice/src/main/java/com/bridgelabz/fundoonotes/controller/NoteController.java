@@ -25,7 +25,7 @@ import com.bridgelabz.fundoonotes.model.Note;
 import com.bridgelabz.fundoonotes.service.NoteService;
 
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/user/note/")
 public class NoteController {
 
 	private static Logger logger = LoggerFactory.getLogger(NoteController.class);

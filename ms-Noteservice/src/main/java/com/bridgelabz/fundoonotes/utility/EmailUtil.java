@@ -13,12 +13,13 @@ public class EmailUtil {
 	@Autowired
 	private MailSender mailSender;
 
-	public void sendEmail(String toEmail, String subject, String activationUrl) {
+	public void sendEmail(String toEmail, String subject, String emailId) {
 		try {
 			SimpleMailMessage msg = new SimpleMailMessage();
 			msg.setFrom("captain.india2112@gmail.com");
 			msg.setTo("captain.india2112@gmail.com");
-			String message = "Please click on the link to verify \n\n" + activationUrl;
+			String message = "Note has been shared to you.\n Check it out by logging in by clicking on the below url\n"
+					+ "http://localhost:4200/login";
 			msg.setText(message);
 			msg.setSubject(subject);
 			msg.setSentDate(new Date());

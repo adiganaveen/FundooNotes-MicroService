@@ -1,6 +1,7 @@
 package com.bridgelabz.fundoonotes.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.bridgelabz.fundoonotes.model.Collaborator;
 import com.bridgelabz.fundoonotes.model.Label;
@@ -18,6 +22,7 @@ import com.bridgelabz.fundoonotes.model.Note;
 import com.bridgelabz.fundoonotes.repository.CollaboratorRepository;
 import com.bridgelabz.fundoonotes.repository.LabelRepository;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
+import com.bridgelabz.fundoonotes.utility.EmailUtil;
 import com.bridgelabz.fundoonotes.utility.TokenGenerator;
 
 @Service
@@ -36,6 +41,12 @@ public class NoteServiceImpl implements NoteService {
 
 	@Autowired
 	private TokenGenerator tokenGenerator;
+
+	@Autowired
+	private EmailUtil emailUtil;
+
+	// @Autowired
+	// private RestTemplate template;
 
 	@Override
 	public Note createNote(String token, Note note, HttpServletRequest request) {
@@ -151,8 +162,10 @@ public class NoteServiceImpl implements NoteService {
 	public boolean createCollaborator(String token, int noteId, int userId) {
 		Collaborator collaborator = new Collaborator();
 		collaborator = collaboratorRepository.save(collaborator.setNoteId(noteId).setUserId(userId));
-		if (collaborator != null)
+		if (collaborator != null) {
+			emailUtil.sendEmail("", "Note has been added to your Fundoo Note", "");
 			return true;
+		}
 		return false;
 	}
 
