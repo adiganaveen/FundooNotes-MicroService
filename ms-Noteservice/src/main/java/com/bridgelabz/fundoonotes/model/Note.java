@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -61,6 +62,10 @@ public class Note implements Serializable {
 
 	@Column(name = "color")
 	private String color;
+	
+	@Column(name = "remainder")
+	@JsonFormat
+	private Timestamp remainder;
 
 	@OneToMany(mappedBy = "noteId")
 	private List<Collaborator> collaborators;
@@ -189,11 +194,21 @@ public class Note implements Serializable {
 		this.collaborators = collaborators;
 	}
 
+	public Timestamp getRemainder() {
+		return remainder;
+	}
+
+	public Note setRemainder(Timestamp remainder) {
+		this.remainder = remainder;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "Note [noteId=" + noteId + ", title=" + title + ", description=" + description + ", createdTime="
 				+ createdTime + ", updatedTime=" + updatedTime + ", isArchive=" + isArchive + ", isPinned=" + isPinned
-				+ ", inTrash=" + inTrash + ", userId=" + userId + ", color=" + color + ", labels=" + labels + "]";
+				+ ", inTrash=" + inTrash + ", userId=" + userId + ", color=" + color + ", remainder=" + remainder
+				+ ", collaborators=" + collaborators + ", labels=" + labels + "]";
 	}
 
 }
