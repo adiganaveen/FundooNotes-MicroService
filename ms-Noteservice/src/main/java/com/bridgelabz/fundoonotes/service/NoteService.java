@@ -1,8 +1,11 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
@@ -34,5 +37,10 @@ public interface NoteService {
 	
 	boolean removeCollaborator(int userId,int noteId);
 
+	boolean store(MultipartFile file,int noteId) throws IOException;
+
+	Note getFile(String token,int noteId);
+		
+	Note deleteFile(String token,int noteId);
 	
 }

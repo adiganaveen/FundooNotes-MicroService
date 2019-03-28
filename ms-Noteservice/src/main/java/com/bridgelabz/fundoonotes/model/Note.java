@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.model;
 
+import java.awt.Image;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -69,6 +70,9 @@ public class Note implements Serializable {
 
 	@OneToMany(mappedBy = "noteId")
 	private List<Collaborator> collaborators;
+	
+	@OneToMany(mappedBy ="noteId")
+	private List<Images> images;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Label.class, cascade = { CascadeType.ALL })
 	@JoinTable(name = "Note_Label", joinColumns = { @JoinColumn(name = "noteId") }, inverseJoinColumns = {
@@ -201,6 +205,14 @@ public class Note implements Serializable {
 	public Note setRemainder(Timestamp remainder) {
 		this.remainder = remainder;
 		return this;
+	}
+
+	public List<Images> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Images> images) {
+		this.images = images;
 	}
 
 	@Override

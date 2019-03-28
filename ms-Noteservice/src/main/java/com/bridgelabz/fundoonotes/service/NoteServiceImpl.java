@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,11 +16,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.fundoonotes.model.Collaborator;
+import com.bridgelabz.fundoonotes.model.Images;
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
 import com.bridgelabz.fundoonotes.repository.CollaboratorRepository;
+import com.bridgelabz.fundoonotes.repository.ImagesRepository;
 import com.bridgelabz.fundoonotes.repository.LabelRepository;
 import com.bridgelabz.fundoonotes.repository.NoteRepository;
 import com.bridgelabz.fundoonotes.utility.EmailUtil;
@@ -38,6 +42,9 @@ public class NoteServiceImpl implements NoteService {
 
 	@Autowired
 	private LabelRepository labelRepository;
+
+	@Autowired
+	private ImagesRepository imagesRepository;
 
 	@Autowired
 	private TokenGenerator tokenGenerator;
@@ -74,12 +81,14 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
-//		int userId = tokenGenerator.verifyToken(token);
+		// int userId = tokenGenerator.verifyToken(token);
 		logger.info("note " + noteId);
 		Optional<Note> maybeNote = noteRepository.findById(noteId);
-		return maybeNote.map(existingNote -> noteRepository.save(existingNote.setTitle(note.getTitle())
-				.setDescription(note.getDescription()).setArchive(note.isArchive()).setInTrash(note.isInTrash())
-				.setColor(note.getColor()).setRemainder(note.getRemainder()).setPinned(note.isPinned()))).orElseGet(() -> null);
+		return maybeNote
+				.map(existingNote -> noteRepository.save(existingNote.setTitle(note.getTitle())
+						.setDescription(note.getDescription()).setArchive(note.isArchive()).setInTrash(note.isInTrash())
+						.setColor(note.getColor()).setRemainder(note.getRemainder()).setPinned(note.isPinned())))
+				.orElseGet(() -> null);
 	}
 
 	@Override
@@ -177,6 +186,31 @@ public class NoteServiceImpl implements NoteService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean store(MultipartFile file, int noteId) throws IOException {
+		Note note = noteRepository.findById(noteId).get();
+		if (note != null) {
+			Images image = new Images();
+			image.setImages(file.getBytes()).setNoteId(noteId);
+			imagesRepository.save(image);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Note getFile(String token, int noteId) {
+		return noteRepository.findById(noteId).get();
+	}
+
+	@Override
+	public Note deleteFile(String token, int noteId) {
+		// User user = userRepository.findById(tokenGenerator.verifyToken(token)).get();
+		// userRepository.save(user.setProfilePicture(null));
+		// return user;
+		return null;
 	}
 
 }

@@ -5,7 +5,35 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2019-03-26T19:34:00Z</updated>
+  <updated>2019-03-27T12:34:55Z</updated>
+  <entry>
+    <title>Spring Tool Suite 3.9.8 released</title>
+    <link rel="alternate" href="https://spring.io/blog/2019/03/27/spring-tool-suite-3-9-8-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Martin Lippert</name>
+    </author>
+    <id>tag:spring.io,2019-03-27:3614</id>
+    <updated>2019-03-27T12:34:55Z</updated>
+    <content type="html">&lt;p&gt;Dear Spring Community,&lt;/p&gt;
+&lt;p&gt;Hey!&lt;/p&gt;
+&lt;p&gt;I am happy to announce the 3.9.8 maintenance release of the Spring Tool Suite 3 (STS3).&lt;/p&gt;
+&lt;p&gt;Highlights from this release include:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;updated to Eclipse 2019-03 release&lt;/li&gt;
+  &lt;li&gt;quick text search allows you to switch between modal and non-modal mode&lt;/li&gt;
+  &lt;li&gt;quick test search allows you to limit search scope to specific files&lt;/li&gt;
+  &lt;li&gt;new tab for running boot apps that show live data from the apps environment&lt;/li&gt;
+  &lt;li&gt;various bug fixes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To download the distributions, please go visit:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring Tool Suite 3: &lt;a href="https://spring.io/tools3/sts/all"&gt;&lt;a href="https://spring.io/tools3/sts/all"&gt;https://spring.io/tools3/sts/all&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Detailed new and noteworthy notes can be found here: &lt;a href="https://docs.spring.io/sts/nan/v398/NewAndNoteworthy.html"&gt;STS 3.9.8 New &amp;amp; Noteworthy&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;STS 3.9.9 is scheduled to be released on top of Eclipse 2019-06 in late June 2019.&lt;/p&gt;
+&lt;p&gt;Enjoy!&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring (Happy 15th Birthday Spring!) - March 26, 2019</title>
     <link rel="alternate" href="https://spring.io/blog/2019/03/26/this-week-in-spring-happy-15th-birthday-spring-march-26-2019" />
@@ -841,272 +869,5 @@ java -jar target/demo-0.0.1-SNAPSHOT.jar
 &lt;blockquote&gt;
   &lt;p&gt;If that task was too easy, or you have a bit more time, why not add the “thymeleaf” and “devtools” dependencies to your Spring Initializr &lt;code&gt;curl&lt;/code&gt; request from earlier and follow this tutorial to build your own simple web application: &lt;a href="https://spring.io/guides/gs/serving-web-content/"&gt;https://spring.io/guides/gs/serving-web-content/&lt;/a&gt; &lt;/p&gt;
 &lt;/blockquote&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Cloud Data Flow and Skipper 2.0 GA Released</title>
-    <link rel="alternate" href="https://spring.io/blog/2019/03/06/spring-cloud-data-flow-and-skipper-2-0-ga-released" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Mark Pollack</name>
-    </author>
-    <id>tag:spring.io,2019-03-06:3596</id>
-    <updated>2019-03-06T20:02:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;The &lt;a href="https://cloud.spring.io/spring-cloud-dataflow/"&gt;Spring Cloud Data Flow&lt;/a&gt; team is pleased to announce the release of &lt;code&gt;2.0&lt;/code&gt; of Data Flow.  Follow the &lt;em&gt;Getting Started&lt;/em&gt; guides for running on &lt;a href="https://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#getting-started-local"&gt;Local&lt;/a&gt;, &lt;a href="https://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#getting-started-cloudfoundry"&gt;Cloud Foundry&lt;/a&gt;, and &lt;a href="https://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#getting-started-kubernetes"&gt;Kubernetes&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Hand in hand is the &lt;code&gt;2.0&lt;/code&gt; release of &lt;a href="https://cloud.spring.io/spring-cloud-skipper/"&gt;Spring Cloud Skipper&lt;/a&gt;. The &lt;a href="https://docs.spring.io/spring-cloud-skipper/docs/2.0.0.RELEASE/reference/htmlsingle/#getting-started"&gt;getting started section&lt;/a&gt; in the reference guide is the best place to start if you want to use Skipper separately from Data Flow.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="here-are-the-highlights-for-data-flow"&gt;&lt;a class="anchor" href="#here-are-the-highlights-for-data-flow"&gt;&lt;/a&gt;Here are the highlights for Data Flow&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Stream deployment always delegates to Skipper&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Single server that runs on all supported platforms&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Launch tasks against multiple platforms&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;UI improvements&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Standardize on OAuth2 and OpenID Connect for Security&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Revamped metrics and monitoring of deployed applications&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Updated analytics using micrometer&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Database migration support&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Update to Boot 2.1&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Update internals to use JPA&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Task/Job Execution and Performance improvements&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="stream-deployment-always-delegates-to-skipper"&gt;&lt;a class="anchor" href="#stream-deployment-always-delegates-to-skipper"&gt;&lt;/a&gt;Stream deployment always delegates to Skipper&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The 1.x series of Data Flow Server allowed for Streams to be deployed directly by the Data Flow Server or to delegate to Skipper.  This resulted in two modes of operation, 'classic' and 'skipper'.  Now there is just one option to deploy streams, via Skipper, which can deploy to all supported platforms and also provides rolling upgrade and downgrade functionality for long lived stream applications.  Architecturally, tasks are deployed by the Data Flow server as before, but can now deploy across different platforms.  See below for more on that functionality.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-docs/src/main/asciidoc/images/arch-stream-dsl.png" alt="The Spring Cloud Data Flow Stream Architecture" width="350"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="single-server-that-runs-on-all-supported-platforms"&gt;&lt;a class="anchor" href="#single-server-that-runs-on-all-supported-platforms"&gt;&lt;/a&gt;Single server that runs on all supported platforms&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;We have consolidated the Local, Cloud Foundry, and Kubernetes servers into a single server, no need to pick different jar or docker images depending on what platform you want to run.  The getting started steps for each platform remains largely the same.  One big change is how Tasks are configured, see below, as we now support the capability for Tasks to be launched across different platforms.  Long-lived applications can be deployed across different platforms as in previous releases.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="launch-tasks-against-multiple-platforms"&gt;&lt;a class="anchor" href="#launch-tasks-against-multiple-platforms"&gt;&lt;/a&gt;Launch tasks against multiple platforms&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;When a task is launched you can specify the platform where it will execute.  Previously, this functionality was only available for Stream and Application deployment.
-The Data Flow server lets you configure multiple Kubernetes and Cloud Foundry task platforms.
-This is particularly useful when you want to orchestrate data pipelines against multiple platforms, but manage them all from a central location.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;For example, if you are running Data Flow on Cloud Foundry in &lt;code&gt;org1/space1&lt;/code&gt;, you can launch tasks in &lt;code&gt;org2/space2&lt;/code&gt; or into a namespace of a Kubernetes cluster.  Similarly, if you are running Data Flow on Kubernetes in &lt;code&gt;namespace&lt;/code&gt;, you can launch tasks in &lt;code&gt;namespace2&lt;/code&gt; or into &lt;code&gt;org1/space1&lt;/code&gt; on Cloud Foundry.
-If running the Data Flow server locally, you can specify different local task platforms, say with different JVM properties, as an alternative to using task deployment properties.
-The docs describe how to configure multiple task platforms for &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.REFERENCE/reference/htmlsingle/#configuration-local-tasks"&gt;Local&lt;/a&gt;, &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.REFERENCE/reference/htmlsingle/#configuration-cloudfoundry-tasks"&gt;Cloud Foundry&lt;/a&gt;, and &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.REFERENCE/reference/htmlsingle/#configuration-kubernetes-tasks"&gt;Kubernetes&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-docs/src/main/asciidoc/images/arch-task-dsl.png" alt="The Spring Cloud Data Flow Task Architecture" width="350"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="ui-improvements"&gt;&lt;a class="anchor" href="#ui-improvements"&gt;&lt;/a&gt;UI Improvements&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;The UI supports launching a Task against a collection of back-end platforms.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The UI/UX is built with a consistent experience for both Stream and Task launches.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Building upon another important feature-set, it is now possible to automatically enable/disable Dashboard functionality based on granular roles defined in Data Flow.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A Grafana launch-icon is natively integrated in Dashboard’s Streams and Runtime pages.
-With Data Flow configured against the available Micrometer backends, monitoring streaming-pipeline metrics such as message-rates, error-counts, and latency is just a click away!&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A new button to rollback to the previous version of a stream is now supported.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The analytics tab has been removed and has been replaced with a link to a micrometer-fed Grafana dashboard.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Angular has been upgraded to 7.2.4&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Based on user feedback added a job restart button inside the execution page of a job.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The UI and Data Flow server now support searching audit records by date.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-docs/src/main/asciidoc/images/dataflow-audit-records-list-app-reg.png?raw=true" alt="The Spring Cloud Data Flow Audit Dashboard"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="standardize-on-oauth2-and-openid-connect-for-security"&gt;&lt;a class="anchor" href="#standardize-on-oauth2-and-openid-connect-for-security"&gt;&lt;/a&gt;Standardize on OAuth2 and OpenID Connect for Security&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;A large amount of effort has gone into improving the security by adopting OAuth2 and OpenID Connect as the default security implementation.  Traditional security options were removed.  The token-based authorization, password-grant type validation, and LDAP integration are a few options, and they are consistently supported with the help of UAA as the backend.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.M2/reference/htmlsingle/#configuration-security-customizing-authorization"&gt;New granular roles&lt;/a&gt; to govern the stream/task deployment operations were added.  The granularity brings better alignment with the intended action, and the client-tools (Shell and Dashboard) automatically also adapt to it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;There is a sample application that shows how to Spring Cloud Data Flow with a &lt;a href="https://github.com/cloudfoundry/uaa"&gt;Cloud Foundry User Account and Authentication&lt;/a&gt; (UAA) Server backed by Lightweight Directory Access Protocol (LDAP) security.  Also available is documentation and sample code showing how to &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#_data_flow_template_and_security"&gt;configure the &lt;code&gt;DataFlowTemplate&lt;/code&gt; for use with OAuth2.0&lt;/a&gt;.
-Dependent libraries that had recent CVEs reported were updated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The following video provides a walkthrough of the new OAuth2 security features and a composed task example using an LDAP backed UAA:&lt;/p&gt;
-&lt;/div&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/dn-1-YzBvMU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="revamped-metrics-and-monitoring-of-deployed-applications"&gt;&lt;a class="anchor" href="#revamped-metrics-and-monitoring-of-deployed-applications"&gt;&lt;/a&gt;Revamped metrics and monitoring of deployed applications&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Data Flow 2.0 introduces a new architecture for collecting and displaying application metrics for Streams.  The Data Flow Metrics Collector introduced in Data Flow 1.4 has been removed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-docs/src/main/asciidoc/images/micrometer-arch.png" alt="Monitoring Architecture"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;This new architecture is based on using the &lt;a href="http://micrometer.io/"&gt;Micrometer library&lt;/a&gt; in the deployed applications to send metrics to popular monitoring systems and then visualizing the metrics with &lt;a href="https://grafana.com/"&gt;Grafana&lt;/a&gt;.
-Each application in the &lt;a href="https://cloud.spring.io/spring-cloud-stream-app-starters/"&gt;Einstein release train of the application starters&lt;/a&gt; contains Micrometer libraries for Prometheus, InfluxDB and DataDog.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;We have provided instructions on how to get started using &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#streams-monitoring-local-prometheus"&gt;Prometheus&lt;/a&gt; and &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#streams-monitoring-local-influx"&gt;InfluxDB&lt;/a&gt; as the monitoring system for Data Flow running locally on your laptop.  There are also instructions on how to get started using &lt;a href="http://docs.spring.io/spring-cloud-dataflow/docs/2.0.0.RELEASE/reference/htmlsingle/#streams-monitoring-kubernetes-prometheus"&gt;Prometheus as the monitoring system when running Data Flow on Kubernetes&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Links to the Grafana dashboard from the Data Flow UI are also provided.  Two Grafana dashboards are also provided, one that shows a more application centric view and other that show a more stream based view.  Here is a screenshot of the Grafana dashboard based on Prometheus showing the message rates for the applications in a stream.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-docs/src/main/asciidoc/images/grafana-prometheus-scdf-applications-dashboard.png" alt="Grafana Dashboard for applications in a stream"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Selectors for applications and streams allows you to navigate down to specific areas of interest.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Here is a short video showing the Stream monitoring in action.&lt;/p&gt;
-&lt;/div&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/wDVV-25jf8Q" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="updated-analytics-using-micrometer"&gt;&lt;a class="anchor" href="#updated-analytics-using-micrometer"&gt;&lt;/a&gt;Updated analytics using micrometer&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;In Data Flow 2.0, the use of Redis counters has been replaced with counters provided by the Micrometer library.
-The Einstein release train of application starters now provide a &lt;a href="https://docs.spring.io/spring-cloud-stream-app-starters/docs/Einstein.RELEASE/reference/htmlsingle/#spring-cloud-stream-modules-counter-processor"&gt;Counter Processor&lt;/a&gt; and a &lt;a href="https://docs.spring.io/spring-cloud-stream-app-starters/docs/Einstein.RELEASE/reference/htmlsingle/#spring-cloud-stream-modules-counter-sink"&gt;Counter Sink&lt;/a&gt;.  &lt;a href="https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/#spring-cloud-data-flow-samples-twitter-analytics-overview"&gt;The twitter analytics sample application&lt;/a&gt; has been updated to use the new counter implementation and a Grafana Dashboard is provided to show the equivalent view of what the Data Flow Analytics UI had previously shown.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="imageblock"&gt;
-&lt;div class="content"&gt;
-&lt;img src="https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/images/twitter_analytics.png" alt="Grafana Dashboard for Twitter Analytics"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Here is a short video showing the new analytics functionality in action.&lt;/p&gt;
-&lt;/div&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/hWLhrXIepLs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="database-migration-support"&gt;&lt;a class="anchor" href="#database-migration-support"&gt;&lt;/a&gt;Database migration support&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Flyway migration code has been improved and tested across all supported databases using a suite of &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow-acceptance-tests/blob/master/acceptance-tests/spring-cloud-dataflow-acceptance-tests/src/test/java/org/springframework/cloud/dataflow/acceptance/tests/DataflowServerMigrationTests.java"&gt;Docker based integration tests&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="update-to-boot-2-1"&gt;&lt;a class="anchor" href="#update-to-boot-2-1"&gt;&lt;/a&gt;Update to Boot 2.1&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;The Data Flow Server 2.0 release is now based on Spring Boot 2.1.  With this foundation shift we took some time to address technical debt and adopt to new features from Spring Boot.  As we head towards Data Flow 2.0 GA, we will continue to address technical debt areas and some additional internal refactoring.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="update-internals-to-use-jpa"&gt;&lt;a class="anchor" href="#update-internals-to-use-jpa"&gt;&lt;/a&gt;Update internals to use JPA&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Coming from Spring XD to Data Flow 1.x, we retained a few 'key-value' like tables and managed them via Spring JDBC APIs.  We now updated to use Spring Data JPA.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="task-job-execution-and-performance-improvements"&gt;&lt;a class="anchor" href="#task-job-execution-and-performance-improvements"&gt;&lt;/a&gt;Task/Job Execution and Performance improvements&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Thanks to the community member Nicolas Widart for his thorough &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/issues/2583"&gt;bug report&lt;/a&gt; on the task-execution and the performance issues associated with it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;A new endpoint was added to avoid breaking changes to the existing REST resource which is now used behind the scenes in the client tools. With these changes, queries for task/batch execution history are almost 10x faster, helping when there are hundreds of steps in a batch job.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="what-is-next"&gt;&lt;a class="anchor" href="#what-is-next"&gt;&lt;/a&gt;What is next&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;While we have a few features in mind for 2.1, the focus on the next couple of months will be on documentation, getting started guides, videos and overall user experience.  A new site for Data Flow is planned as well.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Also note that the 1.x line of Spring Cloud Data Flow will cease maintenance twelve months from this 2.0 GA announcement date, March 7th, 2020.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sect1"&gt;
-&lt;h2 id="stay-in-touch"&gt;&lt;a class="anchor" href="#stay-in-touch"&gt;&lt;/a&gt;Stay in touch&amp;#8230;&amp;#8203;&lt;/h2&gt;
-&lt;div class="sectionbody"&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;As always, we welcome feedback and contributions, so please reach out to us on &lt;a href="https://stackoverflow.com/questions/tagged/spring-cloud-dataflow"&gt;Stackoverflow&lt;/a&gt; or &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/issues"&gt;GitHub&lt;/a&gt; or via &lt;a href="https://gitter.im/spring-cloud/spring-cloud-dataflow"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content>
   </entry>
 </feed>

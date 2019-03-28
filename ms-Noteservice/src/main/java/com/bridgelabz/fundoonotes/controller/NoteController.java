@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoonotes.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
@@ -135,5 +138,32 @@ public class NoteController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
         return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
     }
+	
+	@PostMapping(value = "photo/{noteId}")
+	public ResponseEntity<?> storeFile(@RequestParam("file") MultipartFile file,
+			@PathVariable("noteId") int noteId)
+			throws IOException {
+		if (noteService.store(file,noteId))
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("Error in uploading the image", HttpStatus.CONFLICT);
+	}
+	
+	@GetMapping("photo/{noteId}")
+    public ResponseEntity<?> downloadFile(@RequestHeader("token") String token,
+    		@PathVariable("noteId") int noteId) {
+        Note note = noteService.getFile(token,noteId);
+        if(note!=null)
+			return new ResponseEntity<Note>(note,HttpStatus.OK);
+        return new ResponseEntity<String>("Could not download the image", HttpStatus.CONFLICT);
+    }
+	
+//	@DeleteMapping("photo/{noteId}")
+//    public ResponseEntity<?> deleteFile(@RequestHeader("token") String token,
+//    		@PathVariable("noteId") int noteId) {
+//        Note note = noteService.deleteFile(token,noteId);
+//        if(note!=null)
+//			return new ResponseEntity<Void>(HttpStatus.OK);
+//        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+//    }
 	
 }
