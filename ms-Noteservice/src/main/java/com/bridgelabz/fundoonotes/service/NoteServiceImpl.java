@@ -201,16 +201,13 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public Note getFile(String token, int noteId) {
-		return noteRepository.findById(noteId).get();
-	}
-
-	@Override
-	public Note deleteFile(String token, int noteId) {
-		// User user = userRepository.findById(tokenGenerator.verifyToken(token)).get();
-		// userRepository.save(user.setProfilePicture(null));
-		// return user;
-		return null;
+	public boolean deleteFile(int imagesId) {
+		Images image = imagesRepository.findById(imagesId).get();
+		if (image!=null) {
+			imagesRepository.delete(image);
+			return true;
+		}
+		return false;
 	}
 
 }

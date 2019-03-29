@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.bridgelabz.fundoonotes.model.Images;
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
 import com.bridgelabz.fundoonotes.service.NoteService;
@@ -148,22 +149,11 @@ public class NoteController {
 		return new ResponseEntity<String>("Error in uploading the image", HttpStatus.CONFLICT);
 	}
 	
-	@GetMapping("photo/{noteId}")
-    public ResponseEntity<?> downloadFile(@RequestHeader("token") String token,
-    		@PathVariable("noteId") int noteId) {
-        Note note = noteService.getFile(token,noteId);
-        if(note!=null)
-			return new ResponseEntity<Note>(note,HttpStatus.OK);
-        return new ResponseEntity<String>("Could not download the image", HttpStatus.CONFLICT);
+	@DeleteMapping("photo/{imagesId}")
+    public ResponseEntity<?> deleteFile(@PathVariable("imagesId") int imagesId) {
+        if(noteService.deleteFile(imagesId))
+			return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
     }
-	
-//	@DeleteMapping("photo/{noteId}")
-//    public ResponseEntity<?> deleteFile(@RequestHeader("token") String token,
-//    		@PathVariable("noteId") int noteId) {
-//        Note note = noteService.deleteFile(token,noteId);
-//        if(note!=null)
-//			return new ResponseEntity<Void>(HttpStatus.OK);
-//        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
-//    }
 	
 }
