@@ -55,7 +55,7 @@
       <name>Sergei Egorov</name>
     </author>
     <id>tag:spring.io,2019-03-28:3616</id>
-    <updated>2019-03-28T15:59:39Z</updated>
+    <updated>2019-03-28T15:59:00Z</updated>
     <content type="html">&lt;p&gt;In the &lt;a href="https://projectreactor.io"&gt;Project Reactor&lt;/a&gt; team, we believe that the debugging experience of the libraries you rely upon is as important as, let&amp;rsquo;s say, the feature set or performance.&lt;/p&gt;
 &lt;p&gt;Today, we&amp;rsquo;re excited to announce two new experimental projects in the Reactor family!&lt;/p&gt;&lt;h2&gt;&lt;a href="#blockhound-a-new-kid-on-the-block" class="anchor" name="blockhound-a-new-kid-on-the-block"&gt;&lt;/a&gt;BlockHound - a new kid on the block&lt;/h2&gt;
 &lt;p&gt;One of the most common rookie mistakes is to block Java threads that are supposed to run only non-blocking code (e.g., &lt;code&gt;Schedulers.parallel()&lt;/code&gt;).&lt;br/&gt;It is one of the most harmful issues because you may block unrelated processing or even create a deadlock!&lt;/p&gt;
@@ -104,7 +104,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Note that &lt;code&gt;await&lt;/code&gt; calls &lt;code&gt;Unsafe#park&lt;/code&gt; internally for the awaiting logic. We don&amp;rsquo;t want our Thread to be parked or blocked, and BlockHound protects us from that!&lt;/p&gt;
 &lt;p&gt;Read the &lt;a href="https://github.com/reactor/BlockHound/blob/master/docs/how_it_works.md"&gt;how it works&lt;/a&gt; page if you want to know the implementation details.&lt;br/&gt;TL;DR: it wraps original methods and adds only two method calls to them.&lt;/p&gt;
-&lt;p&gt;You can run it in tests or on your QA/staging environments without loosing performance. Holy Atom, you can even try running it in production, given the low overhead! :)&lt;/p&gt;
+&lt;p&gt;You can run it in tests or on your QA/staging environments without losing performance. Holy Atom, you can even try running it in production, given the low overhead! :)&lt;/p&gt;
 &lt;p&gt;BlockHound works with Project Reactor and RxJava 2, and you can &lt;a href="https://github.com/reactor/BlockHound/blob/master/docs/custom_integrations.md"&gt;write your own integration&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a href="#reactor-debug-agent-production-ready-assembly-back-tracing" class="anchor" name="reactor-debug-agent-production-ready-assembly-back-tracing"&gt;&lt;/a&gt;Reactor Debug agent - production-ready assembly back-tracing&lt;/h2&gt;
 &lt;p&gt;Debugging Reactive code can sometimes be challenging because of the functional programming aspect of it: Instead of commanding exactly what to perform on the data, you &lt;em&gt;declare&lt;/em&gt; how the data should flow through the system. It means that the declaration and the execution happen at different moments of time.&lt;/p&gt;
 &lt;blockquote&gt;
