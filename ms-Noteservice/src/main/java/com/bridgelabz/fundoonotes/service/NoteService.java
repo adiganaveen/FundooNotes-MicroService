@@ -14,7 +14,7 @@ import com.bridgelabz.fundoonotes.model.Note;
 public interface NoteService {
 	Note createNote(String token, Note note, HttpServletRequest request);
 
-	List<Note> retrieveNote(String token, HttpServletRequest request);
+	List<Note> getNotes(String token, HttpServletRequest request);
 	
 //	List<Note> archiveNote(String token, HttpServletRequest request);
 
@@ -28,7 +28,7 @@ public interface NoteService {
 
 	boolean deleteLabel(String token, int labelId, HttpServletRequest request);
 
-	List<Label> retrieveLabel(String token, HttpServletRequest request);
+	List<Label> getLabels(String token, HttpServletRequest request);
 
 	boolean addNoteLabel( int noteId, Label label, HttpServletRequest request);
 

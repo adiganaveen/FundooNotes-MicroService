@@ -31,6 +31,15 @@ public class Collaborator {
 	@UpdateTimestamp
 	private Timestamp updatedTime;
 
+	public Collaborator()
+	{
+		
+	}
+	public Collaborator(int noteId, int userId) {
+		this.noteId = noteId;
+		this.userId = userId;
+	}
+
 	public int getColabId() {
 		return colabId;
 	}

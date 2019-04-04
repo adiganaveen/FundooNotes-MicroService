@@ -12,7 +12,7 @@ import com.bridgelabz.fundoonotes.model.Note;
 public interface NoteRepository extends JpaRepository<Note, Integer> {
 	List<Note> findAllByUserId(int userId);
 
-	Note findByNoteId(int noteId);
+	Optional<Note> findByNoteId(int noteId);
 
 	Optional<Note> findByUserIdAndNoteId(int userId, int noteId);
 

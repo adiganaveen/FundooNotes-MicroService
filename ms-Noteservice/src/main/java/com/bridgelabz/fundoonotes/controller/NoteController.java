@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.bridgelabz.fundoonotes.model.Images;
 import com.bridgelabz.fundoonotes.model.Label;
 import com.bridgelabz.fundoonotes.model.Note;
 import com.bridgelabz.fundoonotes.service.NoteService;
@@ -31,8 +27,6 @@ import com.bridgelabz.fundoonotes.service.NoteService;
 @Controller
 @RequestMapping("/user/note/")
 public class NoteController {
-
-	private static Logger logger = LoggerFactory.getLogger(NoteController.class);
 
 	@Autowired
 	private NoteService noteService;
@@ -45,24 +39,24 @@ public class NoteController {
 		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 	}
 
-	@GetMapping(value = "retrievenote")
-	public ResponseEntity<?> retrieveNote(@RequestHeader("token") String token, HttpServletRequest request) {
-		List<Note> notes = noteService.retrieveNote(token, request);
+	@GetMapping(value = "/notes")
+	public ResponseEntity<?> getNotes(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Note> notes = noteService.getNotes(token, request);
 		if (!notes.isEmpty())
 			return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
 
-	@PutMapping(value = "updatenote/{noteId:.+}")
-	public ResponseEntity<?> updateNote(@RequestHeader("token") String token,@PathVariable("noteId") int noteId, @RequestBody Note note,
-			HttpServletRequest request) {
-		Note newNote = noteService.updateNote(token,noteId, note, request);
+	@PutMapping(value = "/{noteId:.+}")
+	public ResponseEntity<?> updateNote(@RequestHeader("token") String token, @PathVariable("noteId") int noteId,
+			@RequestBody Note note, HttpServletRequest request) {
+		Note newNote = noteService.updateNote(token, noteId, note, request);
 		if (newNote != null)
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.CONFLICT);
 	}
 
-	@DeleteMapping(value = "deletenote/{noteId:.+}")
+	@DeleteMapping(value = "/{noteId:.+}")
 	public ResponseEntity<?> deleteNote(@RequestHeader("token") String token, @PathVariable("noteId") int noteId,
 			HttpServletRequest request) {
 		if (noteService.deleteNote(token, noteId, request))
@@ -70,24 +64,24 @@ public class NoteController {
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
 
-	@PostMapping(value = "createlabel")
+	@PostMapping(value = "/label")
 	public ResponseEntity<?> createLabel(@RequestHeader("token") String token, @RequestBody Label label,
 			HttpServletRequest request) {
-		Label newLabel=noteService.createLabel(token, label, request);
+		Label newLabel = noteService.createLabel(token, label, request);
 		if (newLabel != null)
-			return new ResponseEntity<Label>(newLabel,HttpStatus.OK);
+			return new ResponseEntity<Label>(newLabel, HttpStatus.OK);
 		return new ResponseEntity<String>("There was a issue raised cannot create a note", HttpStatus.CONFLICT);
 	}
 
-	@GetMapping(value = "retrievelabel")
-	public ResponseEntity<?> retrieveLabel(@RequestHeader("token") String token, HttpServletRequest request) {
-		List<Label> labels = noteService.retrieveLabel(token, request);
+	@GetMapping(value = "labels")
+	public ResponseEntity<?> getLabels(@RequestHeader("token") String token, HttpServletRequest request) {
+		List<Label> labels = noteService.getLabels(token, request);
 		if (!labels.isEmpty())
 			return new ResponseEntity<List<Label>>(labels, HttpStatus.OK);
 		return new ResponseEntity<String>("Please enter the value note id or verify your login", HttpStatus.NOT_FOUND);
 	}
 
-	@PutMapping(value = "updatelabel/{labelId:.+}")
+	@PutMapping(value = "/label/{labelId:.+}")
 	public ResponseEntity<?> updateUser(@RequestHeader("token") String token, @PathVariable("labelId") int labelId,
 			@RequestBody Label label, HttpServletRequest request) {
 		Label newLabel = noteService.updateLabel(token, labelId, label, request);
@@ -97,7 +91,7 @@ public class NoteController {
 				HttpStatus.NOT_FOUND);
 	}
 
-	@DeleteMapping(value = "deletelabel/{labelId:.+}")
+	@DeleteMapping(value = "/label/{labelId:.+}")
 	public ResponseEntity<?> deleteLabel(@RequestHeader("token") String token, @PathVariable("labelId") int labelId,
 			HttpServletRequest request) {
 		if (noteService.deleteLabel(token, labelId, request))
@@ -106,54 +100,53 @@ public class NoteController {
 				HttpStatus.NOT_FOUND);
 	}
 
-	@PutMapping(value = "addnotelabel/{noteId:.+}")
-	public ResponseEntity<?> addNoteLabel(@PathVariable(value ="noteId") int noteId,
-			@RequestBody Label label, HttpServletRequest request) {
-		if (noteService.addNoteLabel( noteId, label, request))
+	@PutMapping(value = "/labelnote/{noteId:.+}")
+	public ResponseEntity<?> addNoteLabel(@PathVariable(value = "noteId") int noteId, @RequestBody Label label,
+			HttpServletRequest request) {
+		if (noteService.addNoteLabel(noteId, label, request))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
 	}
 
-	@DeleteMapping(value = "removenotelabel")
-	public ResponseEntity<?> removeNoteLabel(@RequestParam("noteId") int noteId,
-			@RequestParam("labelId") int labelId, HttpServletRequest request) {
-		if (noteService.removeNoteLabel( noteId, labelId, request))
+	@DeleteMapping(value = "labelnote")
+	public ResponseEntity<?> removeNoteLabel(@RequestParam("noteId") int noteId, @RequestParam("labelId") int labelId,
+			HttpServletRequest request) {
+		if (noteService.removeNoteLabel(noteId, labelId, request))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("User id given is not present or Note yet been activated",
 				HttpStatus.NOT_FOUND);
 	}
-	
-	@PostMapping(value = "createcollaborator/{noteId}/{userId}")
-	public ResponseEntity<?> createCollaborator(@RequestHeader("token") String token, @PathVariable("noteId") int noteId,
-			@PathVariable("userId") int userId,HttpServletRequest request) {
+
+	@PostMapping(value = "collaborator/{noteId}/{userId}")
+	public ResponseEntity<?> createCollaborator(@RequestHeader("token") String token,
+			@PathVariable("noteId") int noteId, @PathVariable("userId") int userId, HttpServletRequest request) {
 		if (noteService.createCollaborator(token, noteId, userId))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("There was a issue raised cannot create a collaborator", HttpStatus.CONFLICT);
 	}
-	
-	@DeleteMapping("removecollaborator/{userId}/{noteId}")
-    public ResponseEntity<?> removeCollaborator(@PathVariable("userId") int userId,
-    		@PathVariable("noteId") int noteId) {
-        if(noteService.removeCollaborator(userId,noteId))
+
+	@DeleteMapping("collaborator/{userId}/{noteId}")
+	public ResponseEntity<?> removeCollaborator(@PathVariable("userId") int userId,
+			@PathVariable("noteId") int noteId) {
+		if (noteService.removeCollaborator(userId, noteId))
 			return new ResponseEntity<Void>(HttpStatus.OK);
-        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
-    }
-	
+		return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+	}
+
 	@PostMapping(value = "photo/{noteId}")
-	public ResponseEntity<?> storeFile(@RequestParam("file") MultipartFile file,
-			@PathVariable("noteId") int noteId)
+	public ResponseEntity<?> storeFile(@RequestParam("file") MultipartFile file, @PathVariable("noteId") int noteId)
 			throws IOException {
-		if (noteService.store(file,noteId))
+		if (noteService.store(file, noteId))
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		return new ResponseEntity<String>("Error in uploading the image", HttpStatus.CONFLICT);
 	}
-	
+
 	@DeleteMapping("photo/{imagesId}")
-    public ResponseEntity<?> deleteFile(@PathVariable("imagesId") int imagesId) {
-        if(noteService.deleteFile(imagesId))
+	public ResponseEntity<?> deleteFile(@PathVariable("imagesId") int imagesId) {
+		if (noteService.deleteFile(imagesId))
 			return new ResponseEntity<Void>(HttpStatus.OK);
-        return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
-    }
-	
+		return new ResponseEntity<String>("Couldnot delete the image", HttpStatus.CONFLICT);
+	}
+
 }

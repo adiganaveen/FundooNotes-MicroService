@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.hibernate.annotations.common.util.impl.LoggerFactory"/>
-<fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
-<fullyQualifiedTypeName name="org.slf4j.Logger"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
 <fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
@@ -45,9 +42,7 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.DeleteMapping"/>
-<fullyQualifiedTypeName name="java.util.Optional"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.model.Collaborator"/>
 <fullyQualifiedTypeName name="org.springframework.web.client.RestTemplate"/>
 <fullyQualifiedTypeName name="org.springframework.http.HttpMethod"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.utility.EmailUtil"/>
 <fullyQualifiedTypeName name="java.sql.Timestamp"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonFormat"/>
+<fullyQualifiedTypeName name="org.hibernate.annotations.ManyToAny"/>
+<fullyQualifiedTypeName name="java.util.Optional"/>
+<fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+<fullyQualifiedTypeName name="java.lang.Throwable"/>
+<fullyQualifiedTypeName name="com.bridgelabz.fundoonotes.model.Collaborator"/>
 </qualifiedTypeNameHistroy>

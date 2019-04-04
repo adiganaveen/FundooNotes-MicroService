@@ -12,7 +12,7 @@ import com.bridgelabz.fundoonotes.model.Label;
 public interface LabelRepository extends JpaRepository<Label, Integer> {
 	List<Label> findAllByUserId(int userId);
 
-	Label findByLabelId(int labelId);
+	Optional<Label> findByLabelId(int labelId);
 
 	Optional<Label> findByUserIdAndLabelId(int userId, int labelId);
 

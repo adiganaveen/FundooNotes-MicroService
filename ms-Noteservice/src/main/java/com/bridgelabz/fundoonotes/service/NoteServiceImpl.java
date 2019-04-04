@@ -2,7 +2,6 @@ package com.bridgelabz.fundoonotes.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,12 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bridgelabz.common.exception.CustomException;
 import com.bridgelabz.fundoonotes.model.Collaborator;
 import com.bridgelabz.fundoonotes.model.Images;
 import com.bridgelabz.fundoonotes.model.Label;
@@ -52,19 +49,15 @@ public class NoteServiceImpl implements NoteService {
 	@Autowired
 	private EmailUtil emailUtil;
 
-	// @Autowired
-	// private RestTemplate template;
-
 	@Override
 	public Note createNote(String token, Note note, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		note.setUserId(userId);
-		noteRepository.save(note);
-		return note;
+		return noteRepository.save(note);
 	}
 
 	@Override
-	public List<Note> retrieveNote(String token, HttpServletRequest request) {
+	public List<Note> getNotes(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
 		List<Note> collabNotes = new ArrayList<>();
 		List<Collaborator> collaborators = collaboratorRepository.findAllByUserId(userId);
@@ -73,22 +66,19 @@ public class NoteServiceImpl implements NoteService {
 		}
 		List<Note> notes = noteRepository.findAllByUserId(userId);
 		notes.addAll(collabNotes);
-		if (!notes.isEmpty()) {
-			return notes;
-		}
-		return null;
+		return notes;
 	}
 
 	@Override
 	public Note updateNote(String token, int noteId, Note note, HttpServletRequest request) {
-		// int userId = tokenGenerator.verifyToken(token);
-		logger.info("note " + noteId);
-		Optional<Note> maybeNote = noteRepository.findById(noteId);
-		return maybeNote
-				.map(existingNote -> noteRepository.save(existingNote.setTitle(note.getTitle())
-						.setDescription(note.getDescription()).setArchive(note.isArchive()).setInTrash(note.isInTrash())
-						.setColor(note.getColor()).setRemainder(note.getRemainder()).setPinned(note.isPinned())))
+		return noteRepository.findById(noteId).map(existingNote -> noteRepository.save(updateNote(note, existingNote)))
 				.orElseGet(() -> null);
+	}
+
+	private Note updateNote(Note note, Note existingNote) {
+		return existingNote.setTitle(note.getTitle()).setDescription(note.getDescription()).setArchive(note.isArchive())
+				.setInTrash(note.isInTrash()).setColor(note.getColor()).setRemainder(note.getRemainder())
+				.setPinned(note.isPinned());
 	}
 
 	@Override
@@ -104,18 +94,13 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Label createLabel(String token, Label label, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		label.setUserId(userId);
-		labelRepository.save(label);
-		return label;
+		return labelRepository.save(label.setUserId(userId));
 	}
 
 	@Override
-	public List<Label> retrieveLabel(String token, HttpServletRequest request) {
+	public List<Label> getLabels(String token, HttpServletRequest request) {
 		int userId = tokenGenerator.verifyToken(token);
-		List<Label> labels = labelRepository.findAllByUserId(userId);
-		if (!labels.isEmpty())
-			return labels;
-		return null;
+		return labelRepository.findAllByUserId(userId);
 	}
 
 	@Override
@@ -138,29 +123,27 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public boolean addNoteLabel(int noteId, Label oldLabel, HttpServletRequest request) {
-		Note note = noteRepository.findByNoteId(noteId);
-		Label label = labelRepository.findByLabelId(oldLabel.getLabelId());
-		if (note != null && label != null) {
-			List<Label> labels = note.getLabels();
-			labels.add(label);
-			note.setLabels(labels);
-			noteRepository.save(note);
-			return true;
-		}
-		return false;
+		Note note = noteRepository.findByNoteId(noteId).orElseThrow(() -> new CustomException("Note Not Found"));
+		Label label = labelRepository.findByLabelId(oldLabel.getLabelId())
+				.orElseThrow(() -> new CustomException("Label Not Found"));
+		List<Label> labels = note.getLabels();
+		labels.add(label);
+		noteRepository.save(note.setLabels(labels));
+		return true;
 	}
 
 	@Override
 	public boolean removeNoteLabel(int noteId, int labelId, HttpServletRequest request) {
-		Note note = noteRepository.findByNoteId(noteId);
-		Label label = labelRepository.findByLabelId(labelId);
-		if (note != null && label != null) {
-			List<Label> labels = note.getLabels();
+
+		Optional<Note> maybeNote = noteRepository.findByNoteId(noteId);
+		Optional<Label> maybeLabel = labelRepository.findByLabelId(labelId);
+
+		if (maybeNote.isPresent() && maybeLabel.isPresent()) {
+			List<Label> labels = maybeNote.get().getLabels();
 			if (!labels.isEmpty()) {
 				labels = labels.stream().filter(newLabel -> newLabel.getLabelId() != labelId)
 						.collect(Collectors.toList());
-				note.setLabels(labels);
-				noteRepository.save(note);
+				noteRepository.save(maybeNote.get().setLabels(labels));
 				return true;
 			}
 		}
@@ -169,13 +152,10 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public boolean createCollaborator(String token, int noteId, int userId) {
-		Collaborator collaborator = new Collaborator();
-		collaborator = collaboratorRepository.save(collaborator.setNoteId(noteId).setUserId(userId));
-		if (collaborator != null) {
-			emailUtil.sendEmail("", "Note has been added to your Fundoo Note", "");
-			return true;
-		}
-		return false;
+		Collaborator collaborator = new Collaborator(noteId, userId);
+		collaboratorRepository.save(collaborator);
+		emailUtil.sendEmail("", "Note has been added to your Fundoo Note", "");
+		return true;
 	}
 
 	@Override
@@ -203,7 +183,7 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public boolean deleteFile(int imagesId) {
 		Images image = imagesRepository.findById(imagesId).get();
-		if (image!=null) {
+		if (image != null) {
 			imagesRepository.delete(image);
 			return true;
 		}
